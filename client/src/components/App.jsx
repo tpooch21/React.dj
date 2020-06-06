@@ -1,4 +1,5 @@
 import React from 'react';
+import ScaleForm from './ScaleForm.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Hello World</h1>
+        <ScaleForm />
         <button onClick={this.start}>Play</button>
         <button onClick={this.stop}>Stop</button>
       </div>
