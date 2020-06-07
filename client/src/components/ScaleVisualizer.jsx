@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-// import Note from './Note.jsx';
+import Note from './Note.jsx';
 
 const ScaleVisualizerWrapper = styled.div`
   width: 100%;
@@ -8,14 +8,14 @@ const ScaleVisualizerWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const ScaleVisualizer = (props) => (
   <ScaleVisualizerWrapper>
-    {/* {props.forEach(note => {
+    {props.notes.map(note => {
       return <Note note={note} />
-    })} */}
+    })}
   </ScaleVisualizerWrapper>
 );
 

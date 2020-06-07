@@ -117,9 +117,8 @@ class ScaleForm extends React.Component {
       url: `scale/${scaleName}/notes`,
       method: 'GET',
       success: (data) => {
-        console.log('Logging return notes => ', data.notes);
         this.setState({
-          scaleNotes: data,
+          scaleNotes: data.notes,
           scaleSelected: true
         });
       },

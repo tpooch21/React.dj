@@ -1,3 +1,5 @@
 const Octavian = require('octavian');
 
-var note = new Octavian.note('A4');
+var note = new Octavian.Note('A4');
+
+console.log(note.frequency);
