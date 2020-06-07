@@ -1,16 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ScaleSelect = styled.form`
-
+const ScaleDiv = styled.div`
+  width: 20%;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 `;
 
 const NoteSelect = styled.select`
-
+  height: 25%;
 `;
 
 const MajorOrMinor = styled.select`
-
+  height: 25%;
 `;
 
 const ScaleAndNoteOption = styled.option`
@@ -18,7 +22,7 @@ const ScaleAndNoteOption = styled.option`
 `;
 
 const GetNotesButton = styled.button`
-
+  height: 25%;
 `;
 
 class ScaleForm extends React.Component {
@@ -51,7 +55,7 @@ class ScaleForm extends React.Component {
 
   render() {
     return (
-      <ScaleSelect>
+      <ScaleDiv>
         <h5>Note: </h5>
         <NoteSelect>
           <ScaleAndNoteOption value='A'>A</ScaleAndNoteOption>
@@ -73,7 +77,7 @@ class ScaleForm extends React.Component {
           <ScaleAndNoteOption value="minor">Minor</ScaleAndNoteOption>
         </MajorOrMinor>
         <GetNotesButton onClick={this.getNotes}>Get Notes</GetNotesButton>
-      </ScaleSelect>
+      </ScaleDiv>
     );
 
   }
