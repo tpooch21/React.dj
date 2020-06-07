@@ -172,7 +172,7 @@ class ScaleForm extends React.Component {
           </ButtonWrapper>
         </MenuDiv>
         {this.state.scaleSelected &&
-        <ScaleVisualizer notes={this.state.scaleNotes} playNote={this.props.playNote}/>
+        <ScaleVisualizer notes={this.state.scaleNotes} selectNote={this.props.selectNote}/>
         }
       </ScaleDiv>
     );

@@ -1,5 +1,7 @@
 import React from 'react';
 
-// const Oscillator = () => {
+const Oscillator = () => {
+  var osc = context.createOscillator();
+  
 
-// }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import ScaleForm from './ScaleForm.jsx';
+import Instrument from './Instrument.jsx';
 import styled from 'styled-components';
 import {ControllerPlay} from '@styled-icons/entypo/ControllerPlay';
 import {Pause} from '@styled-icons/foundation/Pause';
@@ -75,9 +76,10 @@ class App extends React.Component {
 
     this.state = {
       playing: false,
-      currentNote: 'A'
+      currentNotes: []
     };
 
+    this.onNoteSelect = this.onNoteSelect.bind(this);
     this.play = this.play.bind(this);
     this.pause = this.pause.bind(this);
   }
@@ -85,6 +87,14 @@ class App extends React.Component {
   componentDidMount() {
 
   }
+
+  onNoteSelect(note) {
+    this.state.currentNotes.push(note);
+    this.setState({
+      currentNotes: this.state.currentNotes
+    });
+  }
+
 
   play(note) {
     var octave = 4;
@@ -110,7 +120,7 @@ class App extends React.Component {
     return (
       <MainDiv>
         <MainTitle>JAVASLAPZ</MainTitle>
-        <ScaleForm playNote={this.play}/>
+        <ScaleForm selectNote={this.onNoteSelect}/>
         <PlayPauseWrapper>
           <PlayWrapper onClick={this.play} playing={this.state.playing}>
             <ControllerIcon></ControllerIcon>
@@ -119,6 +129,7 @@ class App extends React.Component {
             <PauseIcon></PauseIcon>
           </PauseWrapper>
         </PlayPauseWrapper>
+        <Instrument notes={this.state.currentNotes}></Instrument>
       </MainDiv>
     );
   }

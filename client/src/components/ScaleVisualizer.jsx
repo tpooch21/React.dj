@@ -14,7 +14,7 @@ const ScaleVisualizerWrapper = styled.div`
 const ScaleVisualizer = (props) => (
   <ScaleVisualizerWrapper>
     {props.notes.map(note => {
-      return <Note note={note} playNote={props.playNote}/>
+      return <Note note={note} selectNote={props.selectNote}/>
     })}
   </ScaleVisualizerWrapper>
 );

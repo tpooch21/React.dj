@@ -5,6 +5,7 @@ const NoteButton = styled.button`
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  color: #f28c26;
   background: linear-gradient(145deg, #191919, #1e1e1e);
   box-shadow:  6px 6px 12px #131313,
              -6px -6px 12px #252525;
@@ -12,11 +13,12 @@ const NoteButton = styled.button`
   &:hover {
     background: #f28c26;
     outline: none;
+    color: black;
   }
 `;
 
 const Note = (props) => (
-  <NoteButton onClick={() => {props.playNote(props.note)}}>{props.note}</NoteButton>
+  <NoteButton onClick={() => {props.selectNote(props.note)}}>{props.note}</NoteButton>
 );
 
 export default Note;
