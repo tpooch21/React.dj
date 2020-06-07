@@ -3,6 +3,7 @@ import ScaleForm from './ScaleForm.jsx';
 import styled from 'styled-components';
 import {ControllerPlay} from '@styled-icons/entypo/ControllerPlay';
 import {Pause} from '@styled-icons/foundation/Pause';
+const Octavian = require('octavian');
 
 const MainDiv = styled.div`
   background-color: #1c1c1c;
@@ -73,7 +74,8 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      playing: false
+      playing: false,
+      currentNote: 'A'
     };
 
     this.play = this.play.bind(this);
@@ -84,11 +86,12 @@ class App extends React.Component {
 
   }
 
-  play() {
-    debugger;
+  play(note) {
+    var octave = 4;
+    var newNote = new Octavian.Note(`${note}${octave}`);
     osc = context.createOscillator();
     osc.connect(context.destination);
-    osc.frequency.value = 220;
+    osc.frequency.value = newNote.frequency;
     osc.start();
     this.setState({
       playing: true
@@ -107,7 +110,7 @@ class App extends React.Component {
     return (
       <MainDiv>
         <MainTitle>JAVASLAPZ</MainTitle>
-        <ScaleForm />
+        <ScaleForm playNote={this.play}/>
         <PlayPauseWrapper>
           <PlayWrapper onClick={this.play} playing={this.state.playing}>
             <ControllerIcon></ControllerIcon>

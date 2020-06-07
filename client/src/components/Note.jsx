@@ -16,7 +16,7 @@ const NoteButton = styled.button`
 `;
 
 const Note = (props) => (
-  <NoteButton>{props.note}</NoteButton>
+  <NoteButton onClick={() => {props.playNote(props.note)}}>{props.note}</NoteButton>
 );
 
 export default Note;

@@ -88,6 +88,7 @@ class ScaleForm extends React.Component {
     this.state = {
       note: 'A',
       scale: 'Major',
+      octave: 4,
       scaleNotes: [],
       scaleSelected: false
     };
@@ -117,8 +118,18 @@ class ScaleForm extends React.Component {
       url: `scale/${scaleName}/notes`,
       method: 'GET',
       success: (data) => {
+        let notesInOctave = [];
+        let currentOctave = this.state.octave;
+
+        data.notes.forEach((note, i) => {
+          if (note.indexOf('C') > -1 && i !== 0) {
+            currentOctave++;
+          }
+          notesInOctave.push(`${note}${currentOctave}`);
+        });
+
         this.setState({
-          scaleNotes: data.notes,
+          scaleNotes: notesInOctave,
           scaleSelected: true
         });
       },
@@ -161,7 +172,7 @@ class ScaleForm extends React.Component {
           </ButtonWrapper>
         </MenuDiv>
         {this.state.scaleSelected &&
-        <ScaleVisualizer notes={this.state.scaleNotes} />
+        <ScaleVisualizer notes={this.state.scaleNotes} playNote={this.props.playNote}/>
         }
       </ScaleDiv>
     );
