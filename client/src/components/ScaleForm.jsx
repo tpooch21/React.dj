@@ -1,9 +1,19 @@
 import React from 'react';
+import ScaleVisualizer from './ScaleVisualizer.jsx';
 import styled from 'styled-components';
 import $ from 'jquery';
 
 const ScaleDiv = styled.div`
   width: 40%;
+  height: ${props => props.selected ? '200px' : '100px' };
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const MenuDiv = styled.div`
+  width: 100%;
   height: 100px;
   display: flex;
   flex-direction: row;
@@ -78,7 +88,8 @@ class ScaleForm extends React.Component {
     this.state = {
       note: 'A',
       scale: 'Major',
-      scaleNotes: []
+      scaleNotes: [],
+      scaleSelected: false
     };
 
     this.onNoteSelection = this.onNoteSelection.bind(this);
@@ -108,7 +119,8 @@ class ScaleForm extends React.Component {
       success: (data) => {
         console.log('Logging return notes => ', data.notes);
         this.setState({
-          scaleNotes: data
+          scaleNotes: data,
+          scaleSelected: true
         });
       },
       error: () => {
@@ -119,34 +131,39 @@ class ScaleForm extends React.Component {
 
   render() {
     return (
-      <ScaleDiv>
-        <NoteWrapper>
-          <SelectLabel>Note:</SelectLabel>
-          <NoteSelect onChange={(e) => this.onNoteSelection(e)}>
-            <ScaleAndNoteOption value='A'>A</ScaleAndNoteOption>
-            <ScaleAndNoteOption value='Asharp'>A#</ScaleAndNoteOption>
-            <ScaleAndNoteOption value='B'>B</ScaleAndNoteOption>
-            <ScaleAndNoteOption value='C'>C</ScaleAndNoteOption>
-            <ScaleAndNoteOption value='Csharp'>C#</ScaleAndNoteOption>
-            <ScaleAndNoteOption value='D'>D</ScaleAndNoteOption>
-            <ScaleAndNoteOption value='Dsharp'>D#</ScaleAndNoteOption>
-            <ScaleAndNoteOption value='E'>E</ScaleAndNoteOption>
-            <ScaleAndNoteOption value='F'>F</ScaleAndNoteOption>
-            <ScaleAndNoteOption value='Fsharp'>F#</ScaleAndNoteOption>
-            <ScaleAndNoteOption value='G'>G</ScaleAndNoteOption>
-            <ScaleAndNoteOption value='Gsharp'>G#</ScaleAndNoteOption>
-          </NoteSelect>
-        </NoteWrapper>
-        <MajorWrapper>
-          <SelectLabel>Scale:</SelectLabel>
-          <MajorOrMinor onChange={(e) => this.onScaleSelection(e)}>
-            <ScaleAndNoteOption value="Major">Major</ScaleAndNoteOption>
-            <ScaleAndNoteOption value="Minor">Minor</ScaleAndNoteOption>
-          </MajorOrMinor>
-        </MajorWrapper>
-        <ButtonWrapper>
-          <GetNotesButton onClick={this.getNotes}>Get Notes</GetNotesButton>
-        </ButtonWrapper>
+      <ScaleDiv selected={this.state.scaleSelected}>
+        <MenuDiv>
+          <NoteWrapper>
+            <SelectLabel>Note:</SelectLabel>
+            <NoteSelect onChange={(e) => this.onNoteSelection(e)}>
+              <ScaleAndNoteOption value='A'>A</ScaleAndNoteOption>
+              <ScaleAndNoteOption value='Asharp'>A#</ScaleAndNoteOption>
+              <ScaleAndNoteOption value='B'>B</ScaleAndNoteOption>
+              <ScaleAndNoteOption value='C'>C</ScaleAndNoteOption>
+              <ScaleAndNoteOption value='Csharp'>C#</ScaleAndNoteOption>
+              <ScaleAndNoteOption value='D'>D</ScaleAndNoteOption>
+              <ScaleAndNoteOption value='Dsharp'>D#</ScaleAndNoteOption>
+              <ScaleAndNoteOption value='E'>E</ScaleAndNoteOption>
+              <ScaleAndNoteOption value='F'>F</ScaleAndNoteOption>
+              <ScaleAndNoteOption value='Fsharp'>F#</ScaleAndNoteOption>
+              <ScaleAndNoteOption value='G'>G</ScaleAndNoteOption>
+              <ScaleAndNoteOption value='Gsharp'>G#</ScaleAndNoteOption>
+            </NoteSelect>
+          </NoteWrapper>
+          <MajorWrapper>
+            <SelectLabel>Scale:</SelectLabel>
+            <MajorOrMinor onChange={(e) => this.onScaleSelection(e)}>
+              <ScaleAndNoteOption value="Major">Major</ScaleAndNoteOption>
+              <ScaleAndNoteOption value="Minor">Minor</ScaleAndNoteOption>
+            </MajorOrMinor>
+          </MajorWrapper>
+          <ButtonWrapper>
+            <GetNotesButton onClick={this.getNotes}>Get Notes</GetNotesButton>
+          </ButtonWrapper>
+        </MenuDiv>
+        {this.state.scaleSelected &&
+        <ScaleVisualizer notes={this.state.scaleNotes} />
+        }
       </ScaleDiv>
     );
 
