@@ -76,44 +76,56 @@ class App extends React.Component {
 
     this.state = {
       playing: false,
-      currentNotes: []
+      currentNotes: {},
+      firstOpenSpace: 0,
+      filledSpaces: []
     };
 
     this.onNoteSelect = this.onNoteSelect.bind(this);
-    this.play = this.play.bind(this);
-    this.pause = this.pause.bind(this);
-  }
-
-  componentDidMount() {
-
+    this.removeNote = this.removeNote.bind(this);
   }
 
   onNoteSelect(note) {
-    this.state.currentNotes.push(note);
+    // If 4 notes selected, don't add another note
+    if (this.state.firstOpenSpace === undefined) {
+      return;
+    }
+
+    this.state.currentNotes[this.state.firstOpenSpace] = note;
+    this.state.filledSpaces.push(this.state.firstOpenSpace);
+    let newOpenSpace;
+    for (let i = 0; i < 4; i++) {
+      debugger;
+      if (this.state.filledSpaces.indexOf(i) === -1) {
+        newOpenSpace = i;
+        break;
+      }
+    }
+
     this.setState({
-      currentNotes: this.state.currentNotes
+      currentNotes: this.state.currentNotes,
+      firstOpenSpace: newOpenSpace,
+      filledSpaces: this.state.filledSpaces
     });
   }
 
+  removeNote(i) {
+    delete this.state.currentNotes[i];
 
-  play(note) {
-    var octave = 4;
-    var newNote = new Octavian.Note(`${note}${octave}`);
-    osc = context.createOscillator();
-    osc.connect(context.destination);
-    osc.frequency.value = newNote.frequency;
-    osc.start();
-    this.setState({
-      playing: true
-    })
-  }
+    let opening;
+    if (this.state.firstOpenSpace === undefined) {
+      opening = i;
+    } else {
+      opening = i < this.state.firstOpenSpace ? i : this.state.firstOpenSpace;
+    }
 
-  pause() {
-    osc.stop();
-    osc.disconnect();
+    let spaceIndex = this.state.filledSpaces.indexOf(i);
+    let spacesAfterRemoval = this.state.filledSpaces.splice(spaceIndex, 1);
     this.setState({
-      playing: false
-    })
+      currentNotes: this.state.currentNotes,
+      firstOpenSpace: opening,
+      filledSpaces: spacesAfterRemoval
+    });
   }
 
   render() {
@@ -129,7 +141,7 @@ class App extends React.Component {
             <PauseIcon></PauseIcon>
           </PauseWrapper>
         </PlayPauseWrapper>
-        <Instrument notes={this.state.currentNotes}></Instrument>
+        <Instrument parentState={this.state} remove={this.removeNote}></Instrument>
       </MainDiv>
     );
   }

@@ -3,13 +3,15 @@
   <head lang="en" meta="utf-8">
     <title>JavaSlapz</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+
   </head>
   <body>
 
     <script>
       context = new AudioContext();
       // osc = context.createOscillator();
-      gain = context.createGain();
+      gainNode = context.createGain();
+      gainNode.connect(context.destination);
     </script>
 
     <div id="music">

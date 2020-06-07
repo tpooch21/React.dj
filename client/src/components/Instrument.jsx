@@ -81,7 +81,7 @@ class Instrument extends React.Component {
     super(props);
 
     this.state = {
-      noteSelections: this.props.notes,
+      noteSelections: this.props.parentState.currentNotes,
       row1Oscillators: [],
       row2Oscillators: [],
       row3Oscillators: [],
@@ -89,18 +89,35 @@ class Instrument extends React.Component {
     };
 
     this.createOscillator = this.createOscillator.bind(this);
+    this.play = this.play.bind(this);
   }
 
   createOscillator(row, col) {
     if (this.state.noteSelections[row]) {
       var osc = context.createOscillator();
+      var gainNode = context.createGain();
+      gainNode.connect(context.destination);
+      gainNode.gain.value = 0.25;
+
       var note = new Octavian.Note(this.state.noteSelections[row]);
       var freq = note.frequency;
       osc.frequency.value = freq;
-      osc.connect(context.destination);
-      setTimeout(() => {osc.stop()}, 1000);
+
+      osc.connect(gainNode);
+      // setTimeout(() => osc.stop(), 1000);
       osc.start();
+      // this.state.row1Oscillators.push(osc);
     }
+  }
+
+  play() {
+    debugger;
+    for (var i = 0; i < this.state.row1Oscillators.length; i++) {
+      var oscillator = this.state.row1Oscillators[i];
+      setTimeout(() => {oscillator.stop()}, 1000);
+      oscillator.start()
+    }
+
   }
 
   render() {
@@ -109,7 +126,7 @@ class Instrument extends React.Component {
         <NoteSelectionWrapper>
           {[0, 1, 2, 3].map(num => {
             if (this.state.noteSelections[num]) {
-              return <NoteButtonFilled>{this.state.noteSelections[num]}</NoteButtonFilled>
+              return <NoteButtonFilled onClick={() => this.props.remove(num)}>{this.state.noteSelections[num]}</NoteButtonFilled>
             } else {
               return <NoteButtonEmpty></NoteButtonEmpty>
             }
