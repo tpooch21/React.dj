@@ -144,7 +144,8 @@ class Instrument extends React.Component {
       row2GainNodes: {},
       row3Oscillators: {},
       row3GainNodes: {},
-      playing: false
+      playing: false,
+      currentCol: 0
     };
 
     this.player = 0;
@@ -168,7 +169,7 @@ class Instrument extends React.Component {
 
       osc.connect(gainNode);
       osc.start();
-      // setTimeout(() => osc.stop(), 1000);
+
       var rowToChange;
       var gainToChange;
       if (row === 0) {
@@ -206,12 +207,33 @@ class Instrument extends React.Component {
 
     const crankIt = (i) => {
       // Stop gains from previous column
+      var padRows = document.getElementsByClassName('sc-fzqNJr gKNPdH');
+
       let previous;
       if (i === 0) {
         previous = 3;
       } else {
         previous = i - 1;
       }
+
+      // Unhighlight borders of buttons that are stopped
+      padRows[0].children[previous].style.borderTopColor = '#757575';
+      padRows[0].children[previous].style.borderLeftColor = '#757575';
+      padRows[0].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
+      padRows[0].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
+      padRows[1].children[previous].style.borderTopColor = '#757575';
+      padRows[1].children[previous].style.borderLeftColor = '#757575';
+      padRows[1].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
+      padRows[1].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
+      padRows[2].children[previous].style.borderTopColor = '#757575';
+      padRows[2].children[previous].style.borderLeftColor = '#757575';
+      padRows[2].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
+      padRows[2].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
+      padRows[3].children[previous].style.borderTopColor = '#757575';
+      padRows[3].children[previous].style.borderLeftColor = '#757575';
+      padRows[3].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
+      padRows[3].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
+
       var prevGain1 = this.state.rowGainNodes[previous];
       var prevGain2 = this.state.row1GainNodes[previous];
       var prevGain3 = this.state.row2GainNodes[previous];
@@ -248,6 +270,12 @@ class Instrument extends React.Component {
       if (gain4) {
         gain4.gain.value = .25;
       }
+
+      // Turn button borders teal when column is being played
+      padRows[0].children[this.player].style.borderColor = '#00ffff';
+      padRows[1].children[this.player].style.borderColor = '#00ffff';
+      padRows[2].children[this.player].style.borderColor = '#00ffff';
+      padRows[3].children[this.player].style.borderColor = '#00ffff';
 
       this.player++;
       if (this.player === 4) {
@@ -291,6 +319,8 @@ class Instrument extends React.Component {
       playing: false
     });
   }
+
+
 
   render() {
     return (
@@ -338,7 +368,7 @@ class Instrument extends React.Component {
               if (this.state.row3Oscillators[num]) {
                 selected = true;
               }
-              return <PadButton selected={selected} onClick={() => this.createOscillator(3, num)}></PadButton>
+              return <PadButton id={num} selected={selected} onClick={() => this.createOscillator(3, num)}></PadButton>
               })}
           </PadButtonRow>
         </PadButtonsWrapper>

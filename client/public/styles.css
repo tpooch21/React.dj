@@ -5,3 +5,7 @@ body {
   margin: 0;
   background-color: #1c1c1c;
 }
+
+.unhighlight {
+  border-color: -internal-light-dark-color(rgb(118, 118, 118), rgb(195, 195, 195));
+}
