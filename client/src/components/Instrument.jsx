@@ -73,8 +73,8 @@ const PadButton = styled.button`
   height: 65px;
   border-radius: 15px;
   background: ${props => props.selected ? '#f28c26' : 'linear-gradient(145deg, #1e1e1e, #191919)'};
-  box-shadow:  8px 8px 16px #101010,
-            -8px -8px 16px #282828;
+  box-shadow:  6px 6px 12px #131313,
+  -6px -6px 12px #252525;
   cursor: pointer;
 `;
 
@@ -111,7 +111,7 @@ const PauseWrapper = styled.div`
              -6px -6px 12px #252525;
   position: relative;
   cursor: pointer;
-  margin-left: 15px;
+  margin-left: 20px;
 `;
 
 const ControllerIcon = styled(ControllerPlay)`
@@ -137,11 +137,17 @@ class Instrument extends React.Component {
     this.state = {
       noteSelections: this.props.parentState.currentNotes,
       rowOscillators: {},
+      rowGainNodes: {},
       row1Oscillators: {},
+      row1GainNodes: {},
       row2Oscillators: {},
+      row2GainNodes: {},
       row3Oscillators: {},
+      row3GainNodes: {},
       playing: false
     };
+
+    this.player = 0;
 
     this.createOscillator = this.createOscillator.bind(this);
     this.play = this.play.bind(this);
@@ -153,59 +159,136 @@ class Instrument extends React.Component {
       var osc = context.createOscillator();
       var gainNode = context.createGain();
       gainNode.connect(context.destination);
-      gainNode.gain.value = 0.25;
+      gainNode.gain.value = 0;
 
       var note = new Octavian.Note(this.state.noteSelections[row]);
       var freq = note.frequency;
       osc.frequency.value = freq;
 
       osc.connect(gainNode);
+      osc.start();
       // setTimeout(() => osc.stop(), 1000);
       var rowToChange;
+      var gainToChange;
       if (row === 0) {
         this.state.rowOscillators[col] = osc;
+        this.state.rowGainNodes[col] = gainNode;
         rowToChange = 'rowOscillators';
+        gainToChange = 'rowGainNodes';
       } else if (row === 1) {
         this.state.row1Oscillators[col] = osc;
+        this.state.row1GainNodes[col] = gainNode;
         rowToChange = 'row1Oscillators';
+        gainToChange = 'row1GainNodes';
       } else if (row === 2) {
         this.state.row2Oscillators[col] = osc;
+        this.state.row2GainNodes[col] = gainNode;
         rowToChange = 'row2Oscillators';
+        gainToChange = 'row2GainNodes';
       } else {
         this.state.row3Oscillators[col] = osc;
+        this.state.row3GainNodes[col] = gainNode;
         rowToChange = 'row3Oscillators';
+        gainToChange = 'row3GainNodes';
       };
 
-      debugger;
       this.setState({
-        [rowToChange]: this.state[rowToChange]
+        [rowToChange]: this.state[rowToChange],
+        [gainToChange]: this.state[gainToChange]
       });
 
     }
   }
 
   play() {
-    debugger;
-    for (var key in this.state.rowOscillators) {
-      var oscillator1 = this.state.rowOscillators[key];
-      var oscillator2 = this.state.row1Oscillators[key];
-      var oscillator3 = this.state.row2Oscillators[key];
-      var oscillator4 = this.state.row3Oscillators[key];
-      // setTimeout(() => {oscillator.stop()}, 1000);
-      oscillator1.start()
-      oscillator2.start()
-      oscillator3.start()
-      oscillator4.start()
-    }
+    this.player = 0;
+
+    const crankIt = (i) => {
+      // Stop gains from previous column
+      let previous;
+      if (i === 0) {
+        previous = 3;
+      } else {
+        previous = i - 1;
+      }
+      var prevGain1 = this.state.rowGainNodes[previous];
+      var prevGain2 = this.state.row1GainNodes[previous];
+      var prevGain3 = this.state.row2GainNodes[previous];
+      var prevGain4 = this.state.row3GainNodes[previous];
+
+      if (prevGain1) {
+        prevGain1.gain.value = 0;
+      }
+      if (prevGain2) {
+        prevGain2.gain.value = 0;
+      }
+      if (prevGain3) {
+        prevGain3.gain.value = 0;
+      }
+      if (prevGain4) {
+        prevGain4.gain.value = 0;
+      }
+
+      // Start new gains
+      var gain1 = this.state.rowGainNodes[i];
+      var gain2 = this.state.row1GainNodes[i];
+      var gain3 = this.state.row2GainNodes[i];
+      var gain4 = this.state.row3GainNodes[i];
+
+      if (gain1) {
+        gain1.gain.value = .25;
+      }
+      if (gain2) {
+        gain2.gain.value = .25;
+      }
+      if (gain3) {
+        gain3.gain.value = .25;
+      }
+      if (gain4) {
+        gain4.gain.value = .25;
+      }
+
+      this.player++;
+      if (this.player === 4) {
+        this.player = 0;
+      }
+    };
+
+    setInterval(() => {
+      crankIt(this.player);
+    }, 1000);
+
     this.setState({
       playing: true
     });
   }
 
   stop() {
-    for (var i = 0; i < this.state.row1Oscillators.length; i++) {
+    this.player = 4;
 
+    for (var key in this.state.rowGainNodes) {
+      var gain1 = this.state.rowGainNodes[key];
+      var gain2 = this.state.row1GainNodes[key];
+      var gain3 = this.state.row2GainNodes[key];
+      var gain4 = this.state.row3GainNodes[key];
+
+      if (gain1) {
+        gain1.gain.value = 0;
+      }
+      if (gain2) {
+        gain2.gain.value = 0;
+      }
+      if (gain3) {
+        gain3.gain.value = 0;
+      }
+      if (gain4) {
+        gain4.gain.value = 0;
+      }
     }
+
+    this.setState({
+      playing: false
+    });
   }
 
   render() {
@@ -273,3 +356,6 @@ class Instrument extends React.Component {
 };
 
 export default Instrument;
+
+// box-shadow:  4px 4px 8px #002aff,
+// -4px -4px 8px #3355ff;
