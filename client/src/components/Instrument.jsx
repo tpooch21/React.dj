@@ -148,6 +148,7 @@ class Instrument extends React.Component {
     };
 
     this.player = 0;
+    this.refreshIntervalId = 0;
 
     this.createOscillator = this.createOscillator.bind(this);
     this.play = this.play.bind(this);
@@ -254,9 +255,9 @@ class Instrument extends React.Component {
       }
     };
 
-    setInterval(() => {
+    this.refreshIntervalId = setInterval(() => {
       crankIt(this.player);
-    }, 1000);
+    }, 500);
 
     this.setState({
       playing: true
@@ -264,13 +265,13 @@ class Instrument extends React.Component {
   }
 
   stop() {
-    this.player = 4;
+    clearInterval(this.refreshIntervalId);
 
-    for (var key in this.state.rowGainNodes) {
-      var gain1 = this.state.rowGainNodes[key];
-      var gain2 = this.state.row1GainNodes[key];
-      var gain3 = this.state.row2GainNodes[key];
-      var gain4 = this.state.row3GainNodes[key];
+    for (var i = 0; i < 4; i++) {
+      var gain1 = this.state.rowGainNodes[i];
+      var gain2 = this.state.row1GainNodes[i];
+      var gain3 = this.state.row2GainNodes[i];
+      var gain4 = this.state.row3GainNodes[i];
 
       if (gain1) {
         gain1.gain.value = 0;
