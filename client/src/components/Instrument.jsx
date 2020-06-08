@@ -78,6 +78,16 @@ const PadButton = styled.button`
   cursor: pointer;
 `;
 
+const PadButtonFilled = styled.button`
+  width: 65px;
+  height: 65px;
+  border-radius: 15px;
+  background: #f28c26;
+  box-shadow:  6px 6px 12px #131313,
+  -6px -6px 12px #252525;
+  cursor: pointer;
+`;
+
 const PlayPauseWrapper = styled.div`
   width: 60px;
   height: 375px;
@@ -152,12 +162,14 @@ class Instrument extends React.Component {
     this.refreshIntervalId = 0;
 
     this.createOscillator = this.createOscillator.bind(this);
+    this.removeOscillator = this.removeOscillator.bind(this);
     this.play = this.play.bind(this);
     this.stop = this.stop.bind(this);
   }
 
   createOscillator(row, col) {
     if (this.state.noteSelections[row]) {
+
       var osc = context.createOscillator();
       var gainNode = context.createGain();
       gainNode.connect(context.destination);
@@ -200,6 +212,44 @@ class Instrument extends React.Component {
       });
 
     }
+  }
+
+  removeOscillator(row, col) {
+
+    let rowToChange;
+    let gainToChange;
+
+    // Disconnect and remove oscillators, and related gain nodes
+    if (row === 0) {
+      this.state.rowOscillators[col].disconnect();
+      delete this.state.rowOscillators[col];
+      delete this.state.rowGainNodes[col];
+      rowToChange = 'rowOscillators';
+      gainToChange = 'rowGainNodes';
+    } else if (row === 1) {
+      this.state.row1Oscillators[col].disconnect();
+      delete this.state.row1Oscillators[col];
+      delete this.state.row1GainNodes[col];
+      rowToChange = 'row1Oscillators';
+      gainToChange = 'row1GainNodes';
+    } else if (row === 2) {
+      this.state.row2Oscillators[col].disconnect();
+      delete this.state.row2Oscillators[col];
+      delete this.state.row2GainNodes[col];
+      rowToChange = 'row2Oscillators';
+      gainToChange = 'row2GainNodes';
+    } else {
+      this.state.row3Oscillators[col].disconnect();
+      delete this.state.row3Oscillators[col];
+      delete this.state.row3GainNodes[col];
+      rowToChange = 'row3Oscillators';
+      gainToChange = 'row3GainNodes';
+    };
+
+    this.setState({
+      [rowToChange]: this.state[rowToChange],
+      [gainToChange]: this.state[gainToChange]
+    });
   }
 
   play() {
@@ -294,6 +344,14 @@ class Instrument extends React.Component {
 
   stop() {
     clearInterval(this.refreshIntervalId);
+    var padRows = document.getElementsByClassName('sc-fzqNJr gKNPdH');
+
+    let previous;
+    if (this.player === 0) {
+      previous = 3;
+    } else {
+      previous = this.player - 1;
+    }
 
     for (var i = 0; i < 4; i++) {
       var gain1 = this.state.rowGainNodes[i];
@@ -315,12 +373,27 @@ class Instrument extends React.Component {
       }
     }
 
+    padRows[0].children[previous].style.borderTopColor = '#757575';
+    padRows[0].children[previous].style.borderLeftColor = '#757575';
+    padRows[0].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
+    padRows[0].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
+    padRows[1].children[previous].style.borderTopColor = '#757575';
+    padRows[1].children[previous].style.borderLeftColor = '#757575';
+    padRows[1].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
+    padRows[1].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
+    padRows[2].children[previous].style.borderTopColor = '#757575';
+    padRows[2].children[previous].style.borderLeftColor = '#757575';
+    padRows[2].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
+    padRows[2].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
+    padRows[3].children[previous].style.borderTopColor = '#757575';
+    padRows[3].children[previous].style.borderLeftColor = '#757575';
+    padRows[3].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
+    padRows[3].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
+
     this.setState({
       playing: false
     });
   }
-
-
 
   render() {
     return (
@@ -339,37 +412,41 @@ class Instrument extends React.Component {
             {[0, 1, 2, 3].map(num => {
               var selected = false;
               if (this.state.rowOscillators[num]) {
-                selected = true;
+                return <PadButtonFilled onClick={() => this.removeOscillator(0, num)}></PadButtonFilled>
+              } else {
+              return <PadButton onClick={() => this.createOscillator(0, num)}></PadButton>
               }
-              return <PadButton selected={selected} onClick={() => this.createOscillator(0, num)}></PadButton>
             })}
           </PadButtonRow>
           <PadButtonRow>
             {[0, 1, 2, 3].map(num => {
               var selected = false;
               if (this.state.row1Oscillators[num]) {
-                selected = true;
+                return <PadButtonFilled onClick={() => this.removeOscillator(1, num)}></PadButtonFilled>
+              } else {
+              return <PadButton onClick={() => this.createOscillator(1, num)}></PadButton>
               }
-              return <PadButton selected={selected}onClick={() => this.createOscillator(1, num)}></PadButton>
-              })}
+            })}
           </PadButtonRow>
           <PadButtonRow>
             {[0, 1, 2, 3].map(num => {
               var selected = false;
               if (this.state.row2Oscillators[num]) {
-                selected = true;
+                return <PadButtonFilled onClick={() => this.removeOscillator(2, num)}></PadButtonFilled>
+              } else {
+                return <PadButton onClick={() => this.createOscillator(2, num)}></PadButton>
               }
-              return <PadButton selected={selected} onClick={() => this.createOscillator(2, num)}></PadButton>
-              })}
+            })}
           </PadButtonRow>
           <PadButtonRow>
             {[0, 1, 2, 3].map(num => {
               var selected = false;
               if (this.state.row3Oscillators[num]) {
-                selected = true;
+                return <PadButtonFilled onClick={() => this.removeOscillator(3, num)}></PadButtonFilled>
+              } else {
+              return <PadButton onClick={() => this.createOscillator(3, num)}></PadButton>
               }
-              return <PadButton id={num} selected={selected} onClick={() => this.createOscillator(3, num)}></PadButton>
-              })}
+            })}
           </PadButtonRow>
         </PadButtonsWrapper>
         <PlayPauseWrapper>
