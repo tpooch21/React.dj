@@ -24,19 +24,6 @@ const NoteSelectionWrapper = styled.div`
   justify-content: space-around;
 `;
 
-const PadButtonsWrapper = styled.div`
-  height: 400px;
-  width: 550px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  border-radius: 26px;
-  background: linear-gradient(145deg, #1e1e1e, #191919);
-  box-shadow:  6px 6px 12px #121212,
-               -6px -6px 12px #262626;
-`;
-
 const NoteButtonEmpty = styled.button`
   height: 50px;
   width: 50px;
@@ -122,6 +109,7 @@ const PauseWrapper = styled.div`
   position: relative;
   cursor: pointer;
   margin-left: 20px;
+  margin-bottom: 20px
 `;
 
 const ControllerIcon = styled(ControllerPlay)`
@@ -140,6 +128,46 @@ const PauseIcon = styled(Pause)`
   left: 7px;
 `;
 
+const BPMButton = styled.button`
+  height: 25px;
+  font-family: Muli, sans-serif;
+  color: ${props => props.clicked ? '#f28c26' : 'white'};
+  border-radius: 11px;
+  background: linear-gradient(145deg, #1e1e1e, #191919);
+  box-shadow:  5px 5px 10px #151515,
+             -5px -5px 10px #232323;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+`;
+
+const BPMMenu = styled.div`
+  height: 125px;
+  width: 45px;
+  display: ${props => props.show ? 'flex' : 'none'};
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const BPMOption = styled.button`
+  height: 23px;
+  width: 42px;
+  font-family: Muli, sans-serif;
+  color: white;
+  border-radius: 11px;
+  background: linear-gradient(145deg, #1e1e1e, #191919);
+  box-shadow:  5px 5px 10px #151515,
+             -5px -5px 10px #232323;
+  margin-left: 20px;
+  margin-bottom: 5px;
+  &:hover {
+    background: #f28c26;
+    color: black;
+  }
+  cursor: pointer;
+`;
+
 class Instrument extends React.Component {
   constructor(props) {
     super(props);
@@ -155,7 +183,9 @@ class Instrument extends React.Component {
       row3Oscillators: {},
       row3GainNodes: {},
       playing: false,
-      currentCol: 0
+      currentCol: 0,
+      bpm: 500,
+      showBPM: false
     };
 
     this.player = 0;
@@ -165,10 +195,14 @@ class Instrument extends React.Component {
     this.removeOscillator = this.removeOscillator.bind(this);
     this.play = this.play.bind(this);
     this.stop = this.stop.bind(this);
+    this.toggleBPMOptions = this.toggleBPMOptions.bind(this);
+    this.changeBPM = this.changeBPM.bind(this);
   }
 
   createOscillator(row, col) {
     if (this.state.noteSelections[row]) {
+
+      console.log('Logging note => ', this.state.noteSelections[row]);
 
       var osc = context.createOscillator();
       var gainNode = context.createGain();
@@ -257,7 +291,7 @@ class Instrument extends React.Component {
 
     const crankIt = (i) => {
       // Stop gains from previous column
-      var padRows = document.getElementsByClassName('sc-fzqNJr gKNPdH');
+      var padRows = document.getElementsByClassName('padButtonsWrapper')[0].children;
 
       let previous;
       if (i === 0) {
@@ -335,7 +369,7 @@ class Instrument extends React.Component {
 
     this.refreshIntervalId = setInterval(() => {
       crankIt(this.player);
-    }, 500);
+    }, this.state.bpm);
 
     this.setState({
       playing: true
@@ -344,7 +378,7 @@ class Instrument extends React.Component {
 
   stop() {
     clearInterval(this.refreshIntervalId);
-    var padRows = document.getElementsByClassName('sc-fzqNJr gKNPdH');
+    var padRows = document.getElementsByClassName('padButtonsWrapper')[0].children;
 
     let previous;
     if (this.player === 0) {
@@ -395,6 +429,28 @@ class Instrument extends React.Component {
     });
   }
 
+  toggleBPMOptions() {
+    this.setState({
+      showBPM: !this.state.showBPM
+    });
+  }
+
+  changeBPM(ms) {
+    if (this.state.playing) {
+      this.stop();
+      this.setState({
+        bpm: ms
+      }, () => {
+        this.play();
+      });
+    } else {
+      this.setState({
+        bpm: ms
+      });
+    }
+
+  }
+
   render() {
     return (
       <PadWrapper>
@@ -407,7 +463,7 @@ class Instrument extends React.Component {
             }
           })}
         </NoteSelectionWrapper>
-        <PadButtonsWrapper>
+        <div className="padButtonsWrapper">
           <PadButtonRow>
             {[0, 1, 2, 3].map(num => {
               var selected = false;
@@ -448,7 +504,7 @@ class Instrument extends React.Component {
               }
             })}
           </PadButtonRow>
-        </PadButtonsWrapper>
+        </div>
         <PlayPauseWrapper>
           <PlayWrapper playing={this.state.playing} onClick={this.play}>
             <ControllerIcon></ControllerIcon>
@@ -456,6 +512,14 @@ class Instrument extends React.Component {
           <PauseWrapper playing={this.state.playing} onClick={this.stop}>
             <PauseIcon></PauseIcon>
           </PauseWrapper>
+        <BPMButton clicked={this.state.showBPM} onClick={this.toggleBPMOptions}>BPM</BPMButton>
+        <BPMMenu show={this.state.showBPM}>
+          <BPMOption onClick={() => this.changeBPM(375)}>160</BPMOption>
+          <BPMOption onClick={() => this.changeBPM(430)}>140</BPMOption>
+          <BPMOption onClick={() => this.changeBPM(500)}>120</BPMOption>
+          <BPMOption onClick={() => this.changeBPM(600)}>100</BPMOption>
+          <BPMOption onClick={() => this.changeBPM(750)}>80</BPMOption>
+        </BPMMenu>
         </PlayPauseWrapper>
       </PadWrapper>
     );
@@ -464,6 +528,3 @@ class Instrument extends React.Component {
 };
 
 export default Instrument;
-
-// box-shadow:  4px 4px 8px #002aff,
-// -4px -4px 8px #3355ff;

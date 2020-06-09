@@ -9,3 +9,16 @@ body {
 .unhighlight {
   border-color: -internal-light-dark-color(rgb(118, 118, 118), rgb(195, 195, 195));
 }
+
+.padButtonsWrapper {
+  height: 400px;
+  width: 550px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 26px;
+  background: linear-gradient(145deg, #1e1e1e, #191919);
+  box-shadow:  6px 6px 12px #121212,
+               -6px -6px 12px #262626;
+}

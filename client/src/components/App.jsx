@@ -60,6 +60,7 @@ class App extends React.Component {
 
   removeNote(i) {
     delete this.state.currentNotes[i];
+    debugger;
 
     let opening;
     if (this.state.firstOpenSpace === undefined) {
@@ -69,18 +70,18 @@ class App extends React.Component {
     }
 
     let spaceIndex = this.state.filledSpaces.indexOf(i);
-    let spacesAfterRemoval = this.state.filledSpaces.splice(spaceIndex, 1);
+    this.state.filledSpaces.splice(spaceIndex, 1);
     this.setState({
       currentNotes: this.state.currentNotes,
       firstOpenSpace: opening,
-      filledSpaces: spacesAfterRemoval
+      filledSpaces: this.state.filledSpaces
     });
   }
 
   render() {
     return (
       <MainDiv>
-        <MainTitle>JAVASLAPZ</MainTitle>
+        <MainTitle>REACT.dj</MainTitle>
         <ScaleForm selectNote={this.onNoteSelect}/>
         <Instrument parentState={this.state} remove={this.removeNote}></Instrument>
       </MainDiv>

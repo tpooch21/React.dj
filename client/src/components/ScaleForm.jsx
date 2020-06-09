@@ -27,7 +27,7 @@ const SelectLabel = styled.h4`
   margin-right: 10px;
 `;
 
-const NoteWrapper = styled.div`
+const SelectWrapper = styled.div`
   height: 75px;
   display: flex;
   width: 100px
@@ -37,27 +37,12 @@ const NoteWrapper = styled.div`
   position: relative;
 `;
 
-const NoteSelect = styled.select`
+const NoteScaleOctaveSelect = styled.select`
   height: 25px;
   margin-right: 35px;
 `;
 
-const MajorWrapper = styled.div`
-  height: 75px;
-  display: flex;
-  width: 100px
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-`;
-
-const MajorOrMinor = styled.select`
-  height: 25px;
-  margin-right: 35px;
-`;
-
-const ScaleAndNoteOption = styled.option`
+const ScaleNoteOctaveOption = styled.option`
   font-family: Muli, sans-serif;
 `;
 
@@ -88,7 +73,7 @@ class ScaleForm extends React.Component {
     this.state = {
       note: 'A',
       scale: 'Major',
-      octave: 4,
+      octave: 2,
       scaleNotes: [],
       scaleSelected: false
     };
@@ -99,16 +84,20 @@ class ScaleForm extends React.Component {
   }
 
   onNoteSelection(e) {
-    console.log('Logging value here => ', e.target.value);
     this.setState({
       note: e.target.value
     });
   }
 
   onScaleSelection(e) {
-    console.log('Logging value here => ', e.target.value);
     this.setState({
       scale: e.target.value
+    });
+  }
+
+  onOctaveSelection(e) {
+    this.setState({
+      octave: e.target.value
     });
   }
 
@@ -143,30 +132,39 @@ class ScaleForm extends React.Component {
     return (
       <ScaleDiv selected={this.state.scaleSelected}>
         <MenuDiv>
-          <NoteWrapper>
+          <SelectWrapper>
             <SelectLabel>Note:</SelectLabel>
-            <NoteSelect onChange={(e) => this.onNoteSelection(e)}>
-              <ScaleAndNoteOption value='A'>A</ScaleAndNoteOption>
-              <ScaleAndNoteOption value='Asharp'>A#</ScaleAndNoteOption>
-              <ScaleAndNoteOption value='B'>B</ScaleAndNoteOption>
-              <ScaleAndNoteOption value='C'>C</ScaleAndNoteOption>
-              <ScaleAndNoteOption value='Csharp'>C#</ScaleAndNoteOption>
-              <ScaleAndNoteOption value='D'>D</ScaleAndNoteOption>
-              <ScaleAndNoteOption value='Dsharp'>D#</ScaleAndNoteOption>
-              <ScaleAndNoteOption value='E'>E</ScaleAndNoteOption>
-              <ScaleAndNoteOption value='F'>F</ScaleAndNoteOption>
-              <ScaleAndNoteOption value='Fsharp'>F#</ScaleAndNoteOption>
-              <ScaleAndNoteOption value='G'>G</ScaleAndNoteOption>
-              <ScaleAndNoteOption value='Gsharp'>G#</ScaleAndNoteOption>
-            </NoteSelect>
-          </NoteWrapper>
-          <MajorWrapper>
+            <NoteScaleOctaveSelect onChange={(e) => this.onNoteSelection(e)}>
+              <ScaleNoteOctaveOption value='A'>A</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value='Asharp'>A#</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value='B'>B</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value='C'>C</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value='Csharp'>C#</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value='D'>D</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value='Dsharp'>D#</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value='E'>E</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value='F'>F</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value='Fsharp'>F#</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value='G'>G</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value='Gsharp'>G#</ScaleNoteOctaveOption>
+            </NoteScaleOctaveSelect>
+          </SelectWrapper>
+          <SelectWrapper>
             <SelectLabel>Scale:</SelectLabel>
-            <MajorOrMinor onChange={(e) => this.onScaleSelection(e)}>
-              <ScaleAndNoteOption value="Major">Major</ScaleAndNoteOption>
-              <ScaleAndNoteOption value="Minor">Minor</ScaleAndNoteOption>
-            </MajorOrMinor>
-          </MajorWrapper>
+            <NoteScaleOctaveSelect onChange={(e) => this.onScaleSelection(e)}>
+              <ScaleNoteOctaveOption value="Major">Major</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value="Minor">Minor</ScaleNoteOctaveOption>
+            </NoteScaleOctaveSelect>
+          </SelectWrapper>
+          <SelectWrapper>
+            <SelectLabel>Octave:</SelectLabel>
+            <NoteScaleOctaveSelect onChange={(e) => this.onOctaveSelection(e)}>
+              <ScaleNoteOctaveOption value="2">2</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value="3">3</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value="4">4</ScaleNoteOctaveOption>
+              <ScaleNoteOctaveOption value="5">5</ScaleNoteOctaveOption>
+            </NoteScaleOctaveSelect>
+          </SelectWrapper>
           <ButtonWrapper>
             <GetNotesButton onClick={this.getNotes}>Get Notes</GetNotesButton>
           </ButtonWrapper>
