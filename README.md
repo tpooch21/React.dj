@@ -2,6 +2,9 @@
 
 React.dj is a full-stack web application aimed at quenching the creative thirst of the aspiring musician. With React.dj, the user can select a scale and an octave as a starting point, and produce an arrangement of sounds composed of up to 4 notes. React.dj uses the Web Audio API.
 
+## Demo
+![React.dj Demo](demo/React.dj.gif)
+
 ## Using React.dj
 
 To use React.dj, navigate to the root directory of the project and run ```npm start``` to start the express server. Navigate to the url specified in the success start message. 
