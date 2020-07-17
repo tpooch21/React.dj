@@ -6,6 +6,8 @@ React.dj is a full-stack web application aimed at quenching the creative thirst 
 
 To use React.dj, navigate to the root directory of the project and run ```npm start``` to start the express server. Navigate to the url specified in the success start message. 
 
+Or, check it out here: www.reactdj.com
+
 ## Contributing to React.dj
 
 To contribute to React.dj, follow these steps:
