@@ -2,6 +2,7 @@ import React from 'react';
 import ScaleForm from './ScaleForm.jsx';
 import Instrument from './Instrument.jsx';
 import styled from 'styled-components';
+import {Github} from '@styled-icons/boxicons-logos/Github';
 const Octavian = require('octavian');
 
 const MainDiv = styled.div`
@@ -12,12 +13,46 @@ const MainDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: Muli, sans-serif;
 `;
 
 const MainTitle = styled.h1`
   color: white;
-  font-family: Muli, sans-serif;
+  font-family: inherit;
   font-weight: bold;
+`;
+
+const GithubIcon = styled(Github)`
+  color: white;
+  height: 50px;
+  width 50px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  &:hover {
+    height: 60px;
+    width: 60px;
+  }
+`;
+
+const GithubLink = styled.a`
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  position: relative;
+  margin-bottom: 5px;
+  &:hover {
+    height: 60px;
+    width: 60px;
+    margin-bottom: -5px;
+  }
+`;
+
+const LinkMessage = styled.h5`
+  color: white;
+  font-family: inherit;
+  font-size: 10px;
 `;
 
 class App extends React.Component {
@@ -84,6 +119,10 @@ class App extends React.Component {
         <MainTitle>REACT.dj</MainTitle>
         <ScaleForm selectNote={this.onNoteSelect}/>
         <Instrument parentState={this.state} remove={this.removeNote}></Instrument>
+        <GithubLink href="https://github.com/tpooch21/React.dj" target="_blank">
+          <GithubIcon></GithubIcon>
+        </GithubLink>
+        <LinkMessage>View Code and Demo</LinkMessage>
       </MainDiv>
     );
   }

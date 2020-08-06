@@ -64,6 +64,7 @@ const GetNotesButton = styled.button`
   background: linear-gradient(145deg, #1e1e1e, #191919);
   box-shadow:  5px 5px 10px #151515,
              -5px -5px 10px #232323;
+  cursor: pointer;
 `;
 
 class ScaleForm extends React.Component {
@@ -73,7 +74,7 @@ class ScaleForm extends React.Component {
     this.state = {
       note: 'A',
       scale: 'Major',
-      octave: 2,
+      octave: 3,
       scaleNotes: [],
       scaleSelected: false
     };
@@ -159,7 +160,6 @@ class ScaleForm extends React.Component {
           <SelectWrapper>
             <SelectLabel>Octave:</SelectLabel>
             <NoteScaleOctaveSelect onChange={(e) => this.onOctaveSelection(e)}>
-              <ScaleNoteOctaveOption value="2">2</ScaleNoteOctaveOption>
               <ScaleNoteOctaveOption value="3">3</ScaleNoteOctaveOption>
               <ScaleNoteOctaveOption value="4">4</ScaleNoteOctaveOption>
               <ScaleNoteOctaveOption value="5">5</ScaleNoteOctaveOption>
