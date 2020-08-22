@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://172.17.0.3/scales', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost:27017/scales', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const scaleSchema = new mongoose.Schema({
   name: String,

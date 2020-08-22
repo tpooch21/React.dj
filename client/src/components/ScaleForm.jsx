@@ -1,71 +1,8 @@
 import React from 'react';
 import ScaleVisualizer from './ScaleVisualizer.jsx';
+import ScaleFormOption from './ScaleFormOption.jsx';
 import styled from 'styled-components';
 import $ from 'jquery';
-
-const ScaleDiv = styled.div`
-  width: 40%;
-  height: ${props => props.selected ? '200px' : '100px' };
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-`;
-
-const MenuDiv = styled.div`
-  width: 100%;
-  height: 100px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-`;
-
-const SelectLabel = styled.h4`
-  color: white;
-  font-family: Muli, sans-serif;
-  margin-right: 10px;
-`;
-
-const SelectWrapper = styled.div`
-  height: 75px;
-  display: flex;
-  width: 100px
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-`;
-
-const NoteScaleOctaveSelect = styled.select`
-  height: 25px;
-  margin-right: 35px;
-`;
-
-const ScaleNoteOctaveOption = styled.option`
-  font-family: Muli, sans-serif;
-`;
-
-const ButtonWrapper = styled.div`
-  height: 75px;
-  display: flex;
-  width: 100px
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  position: relative;
-`;
-
-const GetNotesButton = styled.button`
-  height: 25px;
-  font-family: Muli, sans-serif;
-  color: white;
-  border-radius: 11px;
-  background: linear-gradient(145deg, #1e1e1e, #191919);
-  box-shadow:  5px 5px 10px #151515,
-             -5px -5px 10px #232323;
-  cursor: pointer;
-`;
 
 class ScaleForm extends React.Component {
   constructor(props) {
@@ -79,6 +16,7 @@ class ScaleForm extends React.Component {
       scaleSelected: false
     };
 
+    this.musicalAlphabet = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
     this.onNoteSelection = this.onNoteSelection.bind(this);
     this.onScaleSelection = this.onScaleSelection.bind(this);
     this.getNotes = this.getNotes.bind(this);
@@ -171,12 +109,75 @@ class ScaleForm extends React.Component {
         </MenuDiv>
         {this.state.scaleSelected &&
         <ScaleVisualizer notes={this.state.scaleNotes} selectNote={this.props.selectNote}/>
-        }
+      }
       </ScaleDiv>
     );
-
   }
 
 };
+
+const ScaleDiv = styled.div`
+  width: 40%;
+  height: ${props => props.selected ? '200px' : '100px' };
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const MenuDiv = styled.div`
+  width: 100%;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+`;
+
+const SelectLabel = styled.h4`
+  color: white;
+  font-family: Muli, sans-serif;
+  margin-right: 10px;
+`;
+
+const SelectWrapper = styled.div`
+  height: 75px;
+  display: flex;
+  width: 100px
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+`;
+
+const NoteScaleOctaveSelect = styled.select`
+  height: 25px;
+  margin-right: 35px;
+`;
+
+const ButtonWrapper = styled.div`
+  height: 75px;
+  display: flex;
+  width: 100px
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+`;
+
+const ScaleNoteOctaveOption = styled.option`
+  font-family: Muli, sans-serif;
+`;
+
+const GetNotesButton = styled.button`
+  height: 25px;
+  font-family: Muli, sans-serif;
+  color: white;
+  border-radius: 11px;
+  background: linear-gradient(145deg, #1e1e1e, #191919);
+  box-shadow:  5px 5px 10px #151515,
+             -5px -5px 10px #232323;
+  cursor: pointer;
+`;
 
 export default ScaleForm;
