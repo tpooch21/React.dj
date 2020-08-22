@@ -5,56 +5,6 @@ import styled from 'styled-components';
 import {Github} from '@styled-icons/boxicons-logos/Github';
 const Octavian = require('octavian');
 
-const MainDiv = styled.div`
-  background-color: #1c1c1c;
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: Muli, sans-serif;
-`;
-
-const MainTitle = styled.h1`
-  color: white;
-  font-family: inherit;
-  font-weight: bold;
-`;
-
-const GithubIcon = styled(Github)`
-  color: white;
-  height: 50px;
-  width 50px;
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  left: 0;
-  &:hover {
-    height: 60px;
-    width: 60px;
-  }
-`;
-
-const GithubLink = styled.a`
-  cursor: pointer;
-  height: 50px;
-  width: 50px;
-  position: relative;
-  margin-bottom: 5px;
-  &:hover {
-    height: 60px;
-    width: 60px;
-    margin-bottom: -5px;
-  }
-`;
-
-const LinkMessage = styled.h5`
-  color: white;
-  font-family: inherit;
-  font-size: 10px;
-`;
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -128,5 +78,55 @@ class App extends React.Component {
   }
 
 };
+
+const MainDiv = styled.div`
+  background-color: #1c1c1c;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Muli, sans-serif;
+`;
+
+const MainTitle = styled.h1`
+  color: white;
+  font-family: inherit;
+  font-weight: bold;
+`;
+
+const GithubIcon = styled(Github)`
+  color: white;
+  height: 50px;
+  width 50px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  &:hover {
+    height: 60px;
+    width: 60px;
+  }
+`;
+
+const GithubLink = styled.a`
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  position: relative;
+  margin-bottom: 5px;
+  &:hover {
+    height: 60px;
+    width: 60px;
+    margin-bottom: -5px;
+  }
+`;
+
+const LinkMessage = styled.h5`
+  color: white;
+  font-family: inherit;
+  font-size: 10px;
+`;
 
 export default App;

@@ -1,6 +1,7 @@
 import React from 'react';
 import ScaleVisualizer from './ScaleVisualizer.jsx';
 import ScaleFormOption from './ScaleFormOption.jsx';
+import SelectMenu from './SelectMenu.jsx';
 import styled from 'styled-components';
 import $ from 'jquery';
 
@@ -17,26 +18,15 @@ class ScaleForm extends React.Component {
     };
 
     this.musicalAlphabet = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
-    this.onNoteSelection = this.onNoteSelection.bind(this);
-    this.onScaleSelection = this.onScaleSelection.bind(this);
+    this.scaleTypes = ['Major', 'Minor'];
+    this.octaves = ['3', '4', '5'];
+    this.onFormSelection = this.onFormSelection.bind(this);
     this.getNotes = this.getNotes.bind(this);
   }
 
-  onNoteSelection(e) {
+  onFormSelection(e, type) {
     this.setState({
-      note: e.target.value
-    });
-  }
-
-  onScaleSelection(e) {
-    this.setState({
-      scale: e.target.value
-    });
-  }
-
-  onOctaveSelection(e) {
-    this.setState({
-      octave: e.target.value
+      [type]: e.target.value
     });
   }
 
@@ -71,38 +61,9 @@ class ScaleForm extends React.Component {
     return (
       <ScaleDiv selected={this.state.scaleSelected}>
         <MenuDiv>
-          <SelectWrapper>
-            <SelectLabel>Note:</SelectLabel>
-            <NoteScaleOctaveSelect onChange={(e) => this.onNoteSelection(e)}>
-              <ScaleNoteOctaveOption value='A'>A</ScaleNoteOctaveOption>
-              <ScaleNoteOctaveOption value='Asharp'>A#</ScaleNoteOctaveOption>
-              <ScaleNoteOctaveOption value='B'>B</ScaleNoteOctaveOption>
-              <ScaleNoteOctaveOption value='C'>C</ScaleNoteOctaveOption>
-              <ScaleNoteOctaveOption value='Csharp'>C#</ScaleNoteOctaveOption>
-              <ScaleNoteOctaveOption value='D'>D</ScaleNoteOctaveOption>
-              <ScaleNoteOctaveOption value='Dsharp'>D#</ScaleNoteOctaveOption>
-              <ScaleNoteOctaveOption value='E'>E</ScaleNoteOctaveOption>
-              <ScaleNoteOctaveOption value='F'>F</ScaleNoteOctaveOption>
-              <ScaleNoteOctaveOption value='Fsharp'>F#</ScaleNoteOctaveOption>
-              <ScaleNoteOctaveOption value='G'>G</ScaleNoteOctaveOption>
-              <ScaleNoteOctaveOption value='Gsharp'>G#</ScaleNoteOctaveOption>
-            </NoteScaleOctaveSelect>
-          </SelectWrapper>
-          <SelectWrapper>
-            <SelectLabel>Scale:</SelectLabel>
-            <NoteScaleOctaveSelect onChange={(e) => this.onScaleSelection(e)}>
-              <ScaleNoteOctaveOption value="Major">Major</ScaleNoteOctaveOption>
-              <ScaleNoteOctaveOption value="Minor">Minor</ScaleNoteOctaveOption>
-            </NoteScaleOctaveSelect>
-          </SelectWrapper>
-          <SelectWrapper>
-            <SelectLabel>Octave:</SelectLabel>
-            <NoteScaleOctaveSelect onChange={(e) => this.onOctaveSelection(e)}>
-              <ScaleNoteOctaveOption value="3">3</ScaleNoteOctaveOption>
-              <ScaleNoteOctaveOption value="4">4</ScaleNoteOctaveOption>
-              <ScaleNoteOctaveOption value="5">5</ScaleNoteOctaveOption>
-            </NoteScaleOctaveSelect>
-          </SelectWrapper>
+          <SelectMenu options={this.musicalAlphabet} type='note' onChange={this.onFormSelection} />
+          <SelectMenu options={this.scaleTypes} type='scale' onChange={this.onFormSelection} />
+          <SelectMenu options={this.octaves} type='octave' onChange={this.onFormSelection} />
           <ButtonWrapper>
             <GetNotesButton onClick={this.getNotes}>Get Notes</GetNotesButton>
           </ButtonWrapper>
