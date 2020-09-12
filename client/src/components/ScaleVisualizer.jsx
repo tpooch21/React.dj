@@ -1,15 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Note from './Note.jsx';
-
-const ScaleVisualizerWrapper = styled.div`
-  width: 100%;
-  height: 100px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: flex-start;
-`;
 
 const ScaleVisualizer = (props) => (
   <ScaleVisualizerWrapper>
@@ -18,5 +9,27 @@ const ScaleVisualizer = (props) => (
     })}
   </ScaleVisualizerWrapper>
 );
+
+const slideDown = keyframes`
+  0% {
+    height: 0%;
+  }
+  50% {
+    height: 50%;
+  }
+  100% {
+    height: 100%;
+  }
+`;
+
+const ScaleVisualizerWrapper = styled.div`
+  width: 100%;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+  animation: ${slideDown} 1s linear;
+`;
 
 export default ScaleVisualizer;

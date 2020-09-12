@@ -3,6 +3,7 @@ import ScaleForm from './ScaleForm.jsx';
 import Instrument from './Instrument.jsx';
 import styled from 'styled-components';
 import {Github} from '@styled-icons/boxicons-logos/Github';
+
 const Octavian = require('octavian');
 
 class App extends React.Component {
