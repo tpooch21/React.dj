@@ -42,15 +42,18 @@ class Instrument extends React.Component {
       return;
     }
 
+    // Create an oscillator and a gain node
     const osc = context.createOscillator();
     const gainNode = context.createGain();
     gainNode.connect(context.destination);
     gainNode.gain.value = 0;
 
+    // Create a note based on the note for the row, and assign the oscillator's frequency to that note's frequency
     const note = new Octavian.Note(this.state.noteSelections[row]);
     const freq = note.frequency;
     osc.frequency.value = freq;
 
+    // Connect the oscillator to the gain node and start it (will be silent, because current gain value (essentially volume) is 0)
     osc.connect(gainNode);
     osc.start();
 
@@ -104,48 +107,21 @@ class Instrument extends React.Component {
       // Unhighlight borders of pads in column that was previously playing
       unhighlightBorders(padRows, previous);
 
-      var prevGain1 = this.state.row0GainNodes[previous];
-      var prevGain2 = this.state.row1GainNodes[previous];
-      var prevGain3 = this.state.row2GainNodes[previous];
-      var prevGain4 = this.state.row3GainNodes[previous];
+      const allRows = [
+        this.state.row0OscillatorsAndGains,
+        this.state.row1OscillatorsAndGains,
+        this.state.row2OscillatorsAndGains,
+        this.state.row3OscillatorsAndGains
+      ];
 
-      if (prevGain1) {
-        prevGain1.gain.value = 0;
-      }
-      if (prevGain2) {
-        prevGain2.gain.value = 0;
-      }
-      if (prevGain3) {
-        prevGain3.gain.value = 0;
-      }
-      if (prevGain4) {
-        prevGain4.gain.value = 0;
-      }
+      // Silence gains in previous column
+      silencePreviousGains(allRows, previous);
 
-      // Start new gains
-      var gain1 = this.state.row0GainNodes[i];
-      var gain2 = this.state.row1GainNodes[i];
-      var gain3 = this.state.row2GainNodes[i];
-      var gain4 = this.state.row3GainNodes[i];
-
-      if (gain1) {
-        gain1.gain.value = .25;
-      }
-      if (gain2) {
-        gain2.gain.value = .25;
-      }
-      if (gain3) {
-        gain3.gain.value = .25;
-      }
-      if (gain4) {
-        gain4.gain.value = .25;
-      }
+      // Start gains in current column
+      startCurrentGains(allRows, i);
 
       // Turn button borders teal when column is being played
-      padRows[0].children[this.player].style.borderColor = '#00ffff';
-      padRows[1].children[this.player].style.borderColor = '#00ffff';
-      padRows[2].children[this.player].style.borderColor = '#00ffff';
-      padRows[3].children[this.player].style.borderColor = '#00ffff';
+      highlightBorders(padRows, i);
 
       this.player++;
       if (this.player === 4) {
@@ -276,6 +252,32 @@ const unhighlightBorders = (padRows, col) => {
     padToUnhighlight.style.borderLeftColor = '#757575';
     padToUnhighlight.style.borderRightColor = 'rgb(118, 118, 118)';
     padToUnhighlight.style.borderBottomColor = 'rgb(118, 118, 118)';
+  });
+};
+
+const highlightBorders = (padRows, col) => {
+  const pads = [...padRows];
+  pads.forEach(row => {
+    const padToHighlight = row.children[col];
+    padToHighlight.style.borderColor = '#00ffff';
+  });
+};
+
+const silencePreviousGains = (rows, col) => { // {0: [osc, gain]}
+  rows.forEach(row => {
+    if (row[col]) {
+      const gain = row[col][1];
+      gain.gain.value = 0;
+    }
+  });
+};
+
+const startCurrentGains = (rows, col) => {
+  rows.forEach(row => {
+    if (row[col]) {
+      const gain = row[col][1];
+      gain.gain.value = .25;
+    }
   });
 };
 
