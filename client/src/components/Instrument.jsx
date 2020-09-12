@@ -32,6 +32,10 @@ class Instrument extends React.Component {
 
   }
 
+  componentDidMount = () => {
+    console.log(this.padRows);
+  }
+
   createOscillator = (row, col) => {
     console.log(row, col);
 
@@ -126,7 +130,7 @@ class Instrument extends React.Component {
 
     const crankIt = (i) => {
       // Stop gains from previous column
-      var padRows = document.getElementsByClassName('padButtonsWrapper')[0].children;
+      const padRows = this.padRows.children;
 
       let previous;
       if (i === 0) {
@@ -135,23 +139,7 @@ class Instrument extends React.Component {
         previous = i - 1;
       }
 
-      // Unhighlight borders of buttons that are stopped
-      padRows[0].children[previous].style.borderTopColor = '#757575';
-      padRows[0].children[previous].style.borderLeftColor = '#757575';
-      padRows[0].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
-      padRows[0].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
-      padRows[1].children[previous].style.borderTopColor = '#757575';
-      padRows[1].children[previous].style.borderLeftColor = '#757575';
-      padRows[1].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
-      padRows[1].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
-      padRows[2].children[previous].style.borderTopColor = '#757575';
-      padRows[2].children[previous].style.borderLeftColor = '#757575';
-      padRows[2].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
-      padRows[2].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
-      padRows[3].children[previous].style.borderTopColor = '#757575';
-      padRows[3].children[previous].style.borderLeftColor = '#757575';
-      padRows[3].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
-      padRows[3].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
+      unhighlightBorders(padRows, previous);
 
       var prevGain1 = this.state.rowGainNodes[previous];
       var prevGain2 = this.state.row1GainNodes[previous];
@@ -300,7 +288,7 @@ class Instrument extends React.Component {
             }
           })}
         </NoteSelectionWrapper>
-        <PadButtonsWrapper>
+        <PadButtonsWrapper ref={(inputEl) => {this.padRows = inputEl}}>
           {rowCreator.map((_, i) => {
             return <InstrumentRow
                       key={i}
@@ -330,6 +318,17 @@ class Instrument extends React.Component {
     );
   }
 
+};
+
+const unhighlightBorders = (padRows, col) => {
+  const pads = [...padRows];
+  pads.forEach(row => {
+    const padToUnhighlight = row.children[col];
+    padToUnhighlight.style.borderTopColor = '#757575';
+    padToUnhighlight.style.borderLeftColor = '#757575';
+    padToUnhighlight.style.borderRightColor = 'rgb(118, 118, 118)';
+    padToUnhighlight.style.borderBottomColor = 'rgb(118, 118, 118)';
+  });
 };
 
 const PadWrapper = styled.div`
