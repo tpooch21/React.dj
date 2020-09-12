@@ -2,8 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import {ControllerPlay} from '@styled-icons/entypo/ControllerPlay';
 import {Pause} from '@styled-icons/foundation/Pause';
+import { unhighlightBorders, highlightBorders, silencePreviousGains, startCurrentGains } from '../../helpers/HighlightAndVolumeHelpers';
 
 import InstrumentRow from './InstrumentRow/InstrumentRow.jsx';
+import BPMMenu from './BPMMenu/BPMMenu.jsx';
 
 const Octavian = require('octavian');
 
@@ -17,14 +19,6 @@ class Instrument extends React.Component {
       row1OscillatorsAndGains: {},
       row2OscillatorsAndGains: {},
       row3OscillatorsAndGains: {},
-      row0Oscillators: {},
-      row0GainNodes: {},
-      row1Oscillators: {},
-      row1GainNodes: {},
-      row2Oscillators: {},
-      row2GainNodes: {},
-      row3Oscillators: {},
-      row3GainNodes: {},
       playing: false,
       currentCol: 0,
       bpm: 500,
@@ -33,7 +27,6 @@ class Instrument extends React.Component {
 
     this.player = 0;
     this.refreshIntervalId = 0;
-
   }
 
   createOscillator = (row, col) => {
@@ -90,7 +83,7 @@ class Instrument extends React.Component {
     });
   }
 
-  play = () => {
+  playArrangement = () => {
     this.player = 0;
 
     const crankIt = (i) => {
@@ -138,7 +131,7 @@ class Instrument extends React.Component {
     });
   }
 
-  stop = () => {
+  stopArrangement = () => {
     clearInterval(this.refreshIntervalId);
     const padRows = this.padRows.children;
 
@@ -149,26 +142,17 @@ class Instrument extends React.Component {
       previous = this.player - 1;
     }
 
-    for (var i = 0; i < 4; i++) {
-      var gain1 = this.state.row0GainNodes[i];
-      var gain2 = this.state.row1GainNodes[i];
-      var gain3 = this.state.row2GainNodes[i];
-      var gain4 = this.state.row3GainNodes[i];
+    const allRows = [
+      this.state.row0OscillatorsAndGains,
+      this.state.row1OscillatorsAndGains,
+      this.state.row2OscillatorsAndGains,
+      this.state.row3OscillatorsAndGains
+    ];
 
-      if (gain1) {
-        gain1.gain.value = 0;
-      }
-      if (gain2) {
-        gain2.gain.value = 0;
-      }
-      if (gain3) {
-        gain3.gain.value = 0;
-      }
-      if (gain4) {
-        gain4.gain.value = 0;
-      }
-    }
+    // Silence all gains (only previous col will be playing)
+    silencePreviousGains(allRows, previous);
 
+    // Unhighlight all borders (only previous col will be highlighted)
     unhighlightBorders(padRows, previous);
 
     this.setState({
@@ -184,18 +168,17 @@ class Instrument extends React.Component {
 
   changeBPM = (ms) => {
     if (this.state.playing) {
-      this.stop();
+      this.stopArrangement();
       this.setState({
         bpm: ms
       }, () => {
-        this.play();
+        this.playArrangement();
       });
     } else {
       this.setState({
         bpm: ms
       });
     }
-
   }
 
   render() {
@@ -223,62 +206,22 @@ class Instrument extends React.Component {
           })}
         </PadButtonsWrapper>
         <PlayPauseWrapper>
-          <PlayWrapper playing={this.state.playing} onClick={this.play}>
+          <PlayWrapper playing={this.state.playing} onClick={this.playArrangement}>
             <ControllerIcon></ControllerIcon>
           </PlayWrapper>
-          <PauseWrapper playing={this.state.playing} onClick={this.stop}>
+          <PauseWrapper playing={this.state.playing} onClick={this.stopArrangement}>
             <PauseIcon></PauseIcon>
           </PauseWrapper>
         <BPMButton clicked={this.state.showBPM} onClick={this.toggleBPMOptions}>BPM</BPMButton>
-        <BPMMenu show={this.state.showBPM}>
-          <BPMOption onClick={() => this.changeBPM(375)}>160</BPMOption>
-          <BPMOption onClick={() => this.changeBPM(430)}>140</BPMOption>
-          <BPMOption onClick={() => this.changeBPM(500)}>120</BPMOption>
-          <BPMOption onClick={() => this.changeBPM(600)}>100</BPMOption>
-          <BPMOption onClick={() => this.changeBPM(750)}>80</BPMOption>
-        </BPMMenu>
+        {this.state.showBPM &&
+          <BPMMenu
+            changeBPM={this.changeBPM}
+            currentBPM={this.state.bpm} />
+        }
         </PlayPauseWrapper>
       </PadWrapper>
     );
   }
-
-};
-
-const unhighlightBorders = (padRows, col) => {
-  const pads = [...padRows];
-  pads.forEach(row => {
-    const padToUnhighlight = row.children[col];
-    padToUnhighlight.style.borderTopColor = '#757575';
-    padToUnhighlight.style.borderLeftColor = '#757575';
-    padToUnhighlight.style.borderRightColor = 'rgb(118, 118, 118)';
-    padToUnhighlight.style.borderBottomColor = 'rgb(118, 118, 118)';
-  });
-};
-
-const highlightBorders = (padRows, col) => {
-  const pads = [...padRows];
-  pads.forEach(row => {
-    const padToHighlight = row.children[col];
-    padToHighlight.style.borderColor = '#00ffff';
-  });
-};
-
-const silencePreviousGains = (rows, col) => { // {0: [osc, gain]}
-  rows.forEach(row => {
-    if (row[col]) {
-      const gain = row[col][1];
-      gain.gain.value = 0;
-    }
-  });
-};
-
-const startCurrentGains = (rows, col) => {
-  rows.forEach(row => {
-    if (row[col]) {
-      const gain = row[col][1];
-      gain.gain.value = .25;
-    }
-  });
 };
 
 const PadWrapper = styled.div`
@@ -386,33 +329,6 @@ const BPMButton = styled.button`
              -5px -5px 10px #232323;
   margin-left: 20px;
   margin-bottom: 10px;
-  cursor: pointer;
-`;
-
-const BPMMenu = styled.div`
-  height: 125px;
-  width: 45px;
-  display: ${props => props.show ? 'flex' : 'none'};
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const BPMOption = styled.button`
-  height: 23px;
-  width: 42px;
-  font-family: Muli, sans-serif;
-  color: white;
-  border-radius: 11px;
-  background: linear-gradient(145deg, #1e1e1e, #191919);
-  box-shadow:  5px 5px 10px #151515,
-             -5px -5px 10px #232323;
-  margin-left: 20px;
-  margin-bottom: 5px;
-  &:hover {
-    background: #f28c26;
-    color: black;
-  }
   cursor: pointer;
 `;
 
