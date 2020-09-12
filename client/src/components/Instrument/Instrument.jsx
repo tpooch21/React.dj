@@ -13,8 +13,12 @@ class Instrument extends React.Component {
 
     this.state = {
       noteSelections: this.props.parentState.currentNotes,
+      row0OscillatorsAndGains: {},
+      row1OscillatorsAndGains: {},
+      row2OscillatorsAndGains: {},
+      row3OscillatorsAndGains: {},
       row0Oscillators: {},
-      rowGainNodes: {},
+      row0GainNodes: {},
       row1Oscillators: {},
       row1GainNodes: {},
       row2Oscillators: {},
@@ -32,59 +36,34 @@ class Instrument extends React.Component {
 
   }
 
-  componentDidMount = () => {
-    console.log(this.padRows);
-  }
-
   createOscillator = (row, col) => {
-    console.log(row, col);
-
-    if (this.state.noteSelections[row]) {
-
-      console.log('Logging note => ', this.state.noteSelections[row]);
-
-      var osc = context.createOscillator();
-      var gainNode = context.createGain();
-      gainNode.connect(context.destination);
-      gainNode.gain.value = 0;
-
-      var note = new Octavian.Note(this.state.noteSelections[row]);
-      var freq = note.frequency;
-      osc.frequency.value = freq;
-
-      osc.connect(gainNode);
-      osc.start();
-
-      var rowToChange;
-      var gainToChange;
-      if (row === 0) {
-        this.state.row0Oscillators[col] = osc;
-        this.state.rowGainNodes[col] = gainNode;
-        rowToChange = 'row0Oscillators';
-        gainToChange = 'rowGainNodes';
-      } else if (row === 1) {
-        this.state.row1Oscillators[col] = osc;
-        this.state.row1GainNodes[col] = gainNode;
-        rowToChange = 'row1Oscillators';
-        gainToChange = 'row1GainNodes';
-      } else if (row === 2) {
-        this.state.row2Oscillators[col] = osc;
-        this.state.row2GainNodes[col] = gainNode;
-        rowToChange = 'row2Oscillators';
-        gainToChange = 'row2GainNodes';
-      } else {
-        this.state.row3Oscillators[col] = osc;
-        this.state.row3GainNodes[col] = gainNode;
-        rowToChange = 'row3Oscillators';
-        gainToChange = 'row3GainNodes';
-      };
-
-      this.setState({
-        [rowToChange]: this.state[rowToChange],
-        [gainToChange]: this.state[gainToChange]
-      });
-
+    // If there's no note selection for this row, don't add an oscillator
+    if (!this.state.noteSelections[row]) {
+      return;
     }
+
+    const osc = context.createOscillator();
+    const gainNode = context.createGain();
+    gainNode.connect(context.destination);
+    gainNode.gain.value = 0;
+
+    const note = new Octavian.Note(this.state.noteSelections[row]);
+    const freq = note.frequency;
+    osc.frequency.value = freq;
+
+    osc.connect(gainNode);
+    osc.start();
+
+    // Add oscillator and gain node to appropriate row and column in state
+    const rowToUpdate = `row${row}OscillatorsAndGains`;
+    const rowCopy = {
+      ...this.state[rowToUpdate],
+      [col]: [osc, gainNode]
+    };
+
+    this.setState({
+      [rowToUpdate]: rowCopy
+    });
   }
 
   removeOscillator = (row, col) => {
@@ -96,9 +75,9 @@ class Instrument extends React.Component {
     if (row === 0) {
       this.state.row0Oscillators[col].disconnect();
       delete this.state.row0Oscillators[col];
-      delete this.state.rowGainNodes[col];
+      delete this.state.row0GainNodes[col];
       rowToChange = 'row0Oscillators';
-      gainToChange = 'rowGainNodes';
+      gainToChange = 'row0GainNodes';
     } else if (row === 1) {
       this.state.row1Oscillators[col].disconnect();
       delete this.state.row1Oscillators[col];
@@ -139,9 +118,10 @@ class Instrument extends React.Component {
         previous = i - 1;
       }
 
+      // Unhighlight borders of pads in column that was previously playing
       unhighlightBorders(padRows, previous);
 
-      var prevGain1 = this.state.rowGainNodes[previous];
+      var prevGain1 = this.state.row0GainNodes[previous];
       var prevGain2 = this.state.row1GainNodes[previous];
       var prevGain3 = this.state.row2GainNodes[previous];
       var prevGain4 = this.state.row3GainNodes[previous];
@@ -160,7 +140,7 @@ class Instrument extends React.Component {
       }
 
       // Start new gains
-      var gain1 = this.state.rowGainNodes[i];
+      var gain1 = this.state.row0GainNodes[i];
       var gain2 = this.state.row1GainNodes[i];
       var gain3 = this.state.row2GainNodes[i];
       var gain4 = this.state.row3GainNodes[i];
@@ -201,7 +181,7 @@ class Instrument extends React.Component {
 
   stop = () => {
     clearInterval(this.refreshIntervalId);
-    var padRows = document.getElementsByClassName('padButtonsWrapper')[0].children;
+    const padRows = this.padRows.children;
 
     let previous;
     if (this.player === 0) {
@@ -211,7 +191,7 @@ class Instrument extends React.Component {
     }
 
     for (var i = 0; i < 4; i++) {
-      var gain1 = this.state.rowGainNodes[i];
+      var gain1 = this.state.row0GainNodes[i];
       var gain2 = this.state.row1GainNodes[i];
       var gain3 = this.state.row2GainNodes[i];
       var gain4 = this.state.row3GainNodes[i];
@@ -230,22 +210,7 @@ class Instrument extends React.Component {
       }
     }
 
-    padRows[0].children[previous].style.borderTopColor = '#757575';
-    padRows[0].children[previous].style.borderLeftColor = '#757575';
-    padRows[0].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
-    padRows[0].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
-    padRows[1].children[previous].style.borderTopColor = '#757575';
-    padRows[1].children[previous].style.borderLeftColor = '#757575';
-    padRows[1].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
-    padRows[1].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
-    padRows[2].children[previous].style.borderTopColor = '#757575';
-    padRows[2].children[previous].style.borderLeftColor = '#757575';
-    padRows[2].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
-    padRows[2].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
-    padRows[3].children[previous].style.borderTopColor = '#757575';
-    padRows[3].children[previous].style.borderLeftColor = '#757575';
-    padRows[3].children[previous].style.borderRightColor = 'rgb(118, 118, 118)';
-    padRows[3].children[previous].style.borderBottomColor = 'rgb(118, 118, 118)';
+    unhighlightBorders(padRows, previous);
 
     this.setState({
       playing: false
@@ -295,7 +260,7 @@ class Instrument extends React.Component {
                       rowID={i}
                       removeOsc={this.removeOscillator}
                       createOsc={this.createOscillator}
-                      rowOscillators={this.state[`row${i}Oscillators`]}/>
+                      rowOscillators={this.state[`row${i}OscillatorsAndGains`]}/>
           })}
         </PadButtonsWrapper>
         <PlayPauseWrapper>

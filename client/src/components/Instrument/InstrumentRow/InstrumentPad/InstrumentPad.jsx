@@ -2,8 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 const instrumentPad = props => {
+  const currentPad = props.oscillators[props.col];
+
   let button = <PadButtonEmpty onClick={props.createOsc} />;
-  if (props.oscillators[props.col]) {
+
+  // If currentPad has an oscillator (it's been selected), fill it
+  if (currentPad && currentPad[0]) {
     button = <PadButtonFilled onClick={props.addOsc} />;
   }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import ScaleForm from './ScaleForm.jsx';
-import Instrument from './Instrument.jsx';
+import Instrument from './Instrument/Instrument.jsx';
 import styled from 'styled-components';
 import {Github} from '@styled-icons/boxicons-logos/Github';
 
@@ -67,7 +67,7 @@ class App extends React.Component {
   render() {
     return (
       <MainDiv>
-        <MainTitle>REACT.dj</MainTitle>
+        <MainTitle><em>REACT.dj</em></MainTitle>
         <ScaleForm selectNote={this.onNoteSelect}/>
         <Instrument parentState={this.state} remove={this.removeNote}></Instrument>
         <GithubLink href="https://github.com/tpooch21/React.dj" target="_blank">
@@ -88,13 +88,14 @@ const MainDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: Muli, sans-serif;
+  font-family: Overpass, sans-serif;
 `;
 
 const MainTitle = styled.h1`
   color: white;
   font-family: inherit;
-  font-weight: bold;
+  font-weight: 900;
+  text-decoration: underline;
 `;
 
 const GithubIcon = styled(Github)`
