@@ -8,7 +8,7 @@ const instrumentPad = props => {
 
   // If currentPad has an oscillator (it's been selected), fill it
   if (currentPad && currentPad[0]) {
-    button = <PadButtonFilled onClick={props.addOsc} />;
+    button = <PadButtonFilled onClick={props.removeOsc} />;
   }
 
   return button;

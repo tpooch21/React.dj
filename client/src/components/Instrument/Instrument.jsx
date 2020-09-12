@@ -56,51 +56,34 @@ class Instrument extends React.Component {
 
     // Add oscillator and gain node to appropriate row and column in state
     const rowToUpdate = `row${row}OscillatorsAndGains`;
-    const rowCopy = {
+    const updatedRow = {
       ...this.state[rowToUpdate],
       [col]: [osc, gainNode]
     };
 
     this.setState({
-      [rowToUpdate]: rowCopy
+      [rowToUpdate]: updatedRow
     });
   }
 
   removeOscillator = (row, col) => {
 
-    let rowToChange;
     let gainToChange;
 
     // Disconnect and remove oscillators, and related gain nodes
-    if (row === 0) {
-      this.state.row0Oscillators[col].disconnect();
-      delete this.state.row0Oscillators[col];
-      delete this.state.row0GainNodes[col];
-      rowToChange = 'row0Oscillators';
-      gainToChange = 'row0GainNodes';
-    } else if (row === 1) {
-      this.state.row1Oscillators[col].disconnect();
-      delete this.state.row1Oscillators[col];
-      delete this.state.row1GainNodes[col];
-      rowToChange = 'row1Oscillators';
-      gainToChange = 'row1GainNodes';
-    } else if (row === 2) {
-      this.state.row2Oscillators[col].disconnect();
-      delete this.state.row2Oscillators[col];
-      delete this.state.row2GainNodes[col];
-      rowToChange = 'row2Oscillators';
-      gainToChange = 'row2GainNodes';
-    } else {
-      this.state.row3Oscillators[col].disconnect();
-      delete this.state.row3Oscillators[col];
-      delete this.state.row3GainNodes[col];
-      rowToChange = 'row3Oscillators';
-      gainToChange = 'row3GainNodes';
+    const rowToUpdate = `row${row}OscillatorsAndGains`;
+
+    // Disconnect oscillator, then remove gain and oscillator from row
+    const currentOscillator = this.state[rowToUpdate][col][0];
+    currentOscillator.disconnect();
+    const updatedRow = {
+      ...this.state[rowToUpdate]
     };
 
+    delete updatedRow[col];
+
     this.setState({
-      [rowToChange]: this.state[rowToChange],
-      [gainToChange]: this.state[gainToChange]
+      [rowToUpdate]: updatedRow
     });
   }
 
