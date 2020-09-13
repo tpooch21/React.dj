@@ -36,7 +36,12 @@ const BPMMenuWrapper = styled.div`
     flex-direction: row;
     width: auto;
     height: 45px;
-  }
+  };
+  @media ${device.laptop} {
+    flex-direction: column;
+    width: 45px;
+    height: auto;
+  };
 `;
 
 export default bpmMenu;

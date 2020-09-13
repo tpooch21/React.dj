@@ -22,17 +22,20 @@ const instrumentRow = props => {
 };
 
 const PadButtonRow = styled.div`
-  width: 550px;
-  height: 80px;
   display: flex;
-  flex-direction: row;
   justify-content: space-around;
   align-items: center;
   box-sizing: border-box;
   @media ${device.mobileS} {
+    max-width: 539px;
     flex-direction: column;
     width: 25%;
     height: 100%;
+  };
+  @media ${device.laptop} {
+    flex-direction: row;
+    width: 550px;
+    height: 80px;
   }
 `;
 

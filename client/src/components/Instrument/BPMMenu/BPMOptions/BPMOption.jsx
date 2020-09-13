@@ -11,9 +11,7 @@ const bpmOption = props => (
 );
 
 const BPMOption = styled.button`
-  height: 23px;
-  width: 42px;
-  font-family: Muli, sans-serif;
+  font-family: inherit;
   color: ${props => props.selected ? 'black' : 'white'};
   background: ${props => props.selected ? '#f28c26' : 'linear-gradient(145deg, #1e1e1e, #191919)'};
   border-radius: 11px;
@@ -30,6 +28,11 @@ const BPMOption = styled.button`
     height: 35px;
     width: 75px;
     font-size: 20px;
+  };
+  @media ${device.laptop} {
+    width: 42px;
+    height: 23px;
+    font-size: 16px;
   }
 `;
 

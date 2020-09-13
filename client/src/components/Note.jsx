@@ -7,8 +7,6 @@ const Note = (props) => (
 );
 
 const NoteButton = styled.button`
-  width: 50px;
-  height: 50px;
   border-radius: 50%;
   color: #f28c26;
   background: linear-gradient(145deg, #191919, #1e1e1e);
@@ -21,10 +19,16 @@ const NoteButton = styled.button`
     color: black;
   };
   @media ${device.mobileS} {
+    max-width: 1023px;
     height: 65px;
     width: 65px;
     font-size: 18px;
-  }
+  };
+  @media ${device.laptop} {
+    height: 50px;
+    width: 50px;
+    font-size: 14px;
+  };
 `;
 
 export default Note;

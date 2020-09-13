@@ -226,41 +226,45 @@ class Instrument extends React.Component {
 };
 
 const PadWrapper = styled.div`
-  width: 50%;
-  height: 400px;
   display: flex;
-  flex-direction: row;
   justify-content: space-around;
   align-items: center;
   margin-top: 20px;
   margin-bottom: 50px;
   @media ${device.mobileS} {
+    max-width: 1023px;
     flex-direction: column;
     width: 90%;
     height: auto;
+    max-width: 1023px;
+  };
+  @media ${device.laptop} {
+    flex-direction: row;
+    width: auto;
+    height: 400px;
   }
 `;
 
 const NoteSelectionWrapper = styled.div`
-  height: 375px;
-  width: 100px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  margin-bottom: 15px;
   @media ${device.mobileS} {
+    max-width: 1023px;
     width: 90%;
     flex-direction: row;
     height: 100px;
-    margin-bottom: 15px;
+  };
+  @media ${device.laptop} {
+    flex-direction: column;
+    width: 100px;
+    height: 375px;
   }
-  `;
+`;
 
   const PadButtonsWrapper = styled.div`
-    height: 400px;
-    width: 550px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: space-around;
     border-radius: 26px;
@@ -269,29 +273,36 @@ const NoteSelectionWrapper = styled.div`
     box-shadow:  6px 6px 12px #121212,
                 -6px -6px 12px #262626;
     @media ${device.mobileS} {
+      max-width: 1023px;
       width: 90%;
       flex-direction: row;
       height: 60vh;
+    };
+    @media ${device.laptop} {
+      flex-direction: column;
+      width: 550px;
+      height: 400px;
     }
   `;
 
 const NoteButtonEmpty = styled.button`
-  height: 50px;
-  width: 50px;
   border-radius: 15px;
   background: linear-gradient(145deg, #1e1e1e, #191919);
   box-shadow:  8px 8px 16px #101010,
             -8px -8px 16px #282828;
   cursor: pointer;
   @media ${device.mobileS} {
+    max-width: 1023px;
     height: 75px;
     width: 75px;
+  };
+  @media ${device.laptop} {
+    width: 50px;
+    height: 50px;
   }
 `;
 
 const NoteButtonFilled = styled.button`
-  height: 50px;
-  width: 50px;
   border-radius: 15px;
   background: #f28c26;
   color: black;
@@ -300,33 +311,40 @@ const NoteButtonFilled = styled.button`
   cursor: pointer;
   font-weight: bold;
   @media ${device.mobileS} {
+    max-width: 1023px;
     height: 75px;
     width: 75px;
     font-size: 24px;
+  };
+  @media ${device.laptop} {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
   }
 `;
 
 const PlayPauseWrapper = styled.div`
-  width: 60px;
-  height: 375px;
   display: flex;
-  flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   padding-left: 50px;
   box-sizing: border-box;
   @media ${device.mobileS} {
+    max-width: 1023px;
     flex-direction: row;
     width: 100%;
-    justify-content: flex-start;
     height: auto;
     margin-top: 15px;
+  };
+  @media ${device.laptop} {
+    flex-direction: column;
+    width: 60px;
+    height: 375px;
+    margin-top: 0;
   }
 `;
 
 const PlayWrapper = styled.div`
-  width: 50px;
-  height: 50px;
   border-radius: 50%;
   background-color: #1c1c1c;
   background: ${props => props.playing ? '#f28c26' : 'linear-gradient(145deg, #191919, #1e1e1e)'};
@@ -337,14 +355,17 @@ const PlayWrapper = styled.div`
   margin-bottom: 20px;
   margin-left: 15px;
   @media ${device.mobileS} {
+    max-width: 1023px;
     height: 70px;
     width: 70px;
-  }
+  };
+  @media ${device.laptop} {
+    width: 50px;
+    height: 50px;
+  };
 `;
 
 const PauseWrapper = styled.div`
-  width: 50px;
-  height: 50px;
   border-radius: 50%;
   background-color: #1c1c1c;
   background: ${props => props.playing ? 'linear-gradient(145deg, #191919, #1e1e1e)' : '#f28c26'};
@@ -355,8 +376,13 @@ const PauseWrapper = styled.div`
   margin-left: 20px;
   margin-bottom: 20px;
   @media ${device.mobileS} {
+    max-width: 1023px;
     height: 70px;
     width: 70px;
+  };
+  @media ${device.laptop} {
+    width: 50px;
+    height: 50px;
   }
 `;
 
@@ -367,26 +393,35 @@ const ControllerIcon = styled(ControllerPlay)`
   top: 7px;
   left: 9px;
   @media ${device.mobileS} {
+    max-width: 1023px;
     height: 55px;
     top: 8px;
     left: 10px;
+  };
+  @media ${device.laptop} {
+    height: 35px;
+    top: 7px;
+    left: 9px;
   }
 `;
 
 const PauseIcon = styled(Pause)`
   color: white;
-  height: 35px;
   position: absolute;
   top: 7px;
   left: 7px;
   @media ${device.mobileS} {
+    max-width: 1023px;
     height: 55px;
+  };
+  @media ${device.laptop} {
+    height: 35px;
   }
 `;
 
 const BPMButton = styled.button`
   height: 25px;
-  font-family: Muli, sans-serif;
+  font-family: inherit;
   color: ${props => props.clicked ? '#f28c26' : 'white'};
   border-radius: 11px;
   background: linear-gradient(145deg, #1e1e1e, #191919);
@@ -397,10 +432,16 @@ const BPMButton = styled.button`
   cursor: pointer;
   box-sizing: border-box;
   @media ${device.mobileS} {
+    max-width: 1023px;
     height: 35px;
     width: 75px;
     font-size: 20px;
-  }
+  };
+  @media ${device.laptop} {
+    height: 25px;
+    line-height: 25px;
+    font-size: 16px;
+  };
 `;
 
 

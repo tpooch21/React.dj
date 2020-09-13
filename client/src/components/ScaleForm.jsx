@@ -79,14 +79,17 @@ class ScaleForm extends React.Component {
 };
 
 const ScaleDiv = styled.div`
-  width: 40%;
   height: ${props => props.selected ? '200px' : '100px' };
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   @media ${device.mobileS} {
+    max-width: 1023px;
     width: 80%;
+  };
+  @media ${device.laptop} {
+    width: 40%;
   }
 `;
 
