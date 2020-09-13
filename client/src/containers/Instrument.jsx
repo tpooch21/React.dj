@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import {ControllerPlay} from '@styled-icons/entypo/ControllerPlay';
-import {Pause} from '@styled-icons/foundation/Pause';
 import { unhighlightBorders, highlightBorders, silencePreviousGains, startCurrentGains } from '../helpers/HighlightAndVolumeHelpers';
 import { device } from '../../public/assets/sizes';
 
 import InstrumentRow from '../components/InstrumentRow/InstrumentRow.jsx';
-import BPMMenu from '../components/BPMMenu/BPMMenu.jsx';
+import Controllers from '../components/Controllers/Controllers.jsx';
 import NoteSelections from '../components/NoteSelections/NoteSelections.jsx';
 
 const Octavian = require('octavian');
+
+const rowCreator = Array(4).fill(0);
 
 class Instrument extends React.Component {
   constructor(props) {
@@ -184,7 +184,6 @@ class Instrument extends React.Component {
   }
 
   render() {
-    const rowCreator = Array(4).fill(0);
 
     return (
       <PadWrapper>
@@ -201,20 +200,14 @@ class Instrument extends React.Component {
                       rowOscillators={this.state[`row${i}OscillatorsAndGains`]}/>
           })}
         </PadButtonsWrapper>
-        <PlayPauseWrapper>
-          <PlayWrapper playing={this.state.playing} onClick={this.playArrangement}>
-            <ControllerIcon></ControllerIcon>
-          </PlayWrapper>
-          <PauseWrapper playing={this.state.playing} onClick={this.stopArrangement}>
-            <PauseIcon></PauseIcon>
-          </PauseWrapper>
-        <BPMButton clicked={this.state.showBPM} onClick={this.toggleBPMOptions}>BPM</BPMButton>
-        {this.state.showBPM &&
-          <BPMMenu
-            changeBPM={this.changeBPM}
-            currentBPM={this.state.bpm} />
-        }
-        </PlayPauseWrapper>
+        <Controllers
+          playing={this.state.playing}
+          playArrangement={this.playArrangement}
+          stopArrangement={this.stopArrangement}
+          showBPM={this.state.showBPM}
+          toggleBPMOptions={this.toggleBPMOptions}
+          changeBPM={this.changeBPM}
+          bpm={this.state.bpm}/>
       </PadWrapper>
     );
   }
@@ -261,128 +254,5 @@ const PadButtonsWrapper = styled.div`
     height: 400px;
   }
 `;
-
-
-const PlayPauseWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding-left: 50px;
-  box-sizing: border-box;
-  @media ${device.mobileS} {
-    max-width: 1023px;
-    flex-direction: row;
-    width: 100%;
-    height: auto;
-    margin-top: 15px;
-  };
-  @media ${device.laptop} {
-    flex-direction: column;
-    width: 60px;
-    height: 375px;
-    margin-top: 0;
-  }
-`;
-
-const PlayWrapper = styled.div`
-  border-radius: 50%;
-  background-color: #1c1c1c;
-  background: ${props => props.playing ? '#f28c26' : 'linear-gradient(145deg, #191919, #1e1e1e)'};
-  box-shadow:  6px 6px 12px #131313,
-             -6px -6px 12px #252525;
-  position: relative;
-  cursor: pointer;
-  margin-bottom: 20px;
-  margin-left: 15px;
-  @media ${device.mobileS} {
-    max-width: 1023px;
-    height: 70px;
-    width: 70px;
-  };
-  @media ${device.laptop} {
-    width: 50px;
-    height: 50px;
-  };
-`;
-
-const PauseWrapper = styled.div`
-  border-radius: 50%;
-  background-color: #1c1c1c;
-  background: ${props => props.playing ? 'linear-gradient(145deg, #191919, #1e1e1e)' : '#f28c26'};
-  box-shadow:  6px 6px 12px #131313,
-             -6px -6px 12px #252525;
-  position: relative;
-  cursor: pointer;
-  margin-left: 20px;
-  margin-bottom: 20px;
-  @media ${device.mobileS} {
-    max-width: 1023px;
-    height: 70px;
-    width: 70px;
-  };
-  @media ${device.laptop} {
-    width: 50px;
-    height: 50px;
-  }
-`;
-
-const ControllerIcon = styled(ControllerPlay)`
-  color: white;
-  height: 35px;
-  position: absolute;
-  top: 7px;
-  left: 9px;
-  @media ${device.mobileS} {
-    max-width: 1023px;
-    height: 55px;
-    top: 8px;
-    left: 10px;
-  };
-  @media ${device.laptop} {
-    height: 35px;
-    top: 7px;
-    left: 9px;
-  }
-`;
-
-const PauseIcon = styled(Pause)`
-  color: white;
-  position: absolute;
-  top: 7px;
-  left: 7px;
-  @media ${device.mobileS} {
-    max-width: 1023px;
-    height: 55px;
-  };
-  @media ${device.laptop} {
-    height: 35px;
-  }
-`;
-
-const BPMButton = styled.button`
-  height: 25px;
-  font-family: inherit;
-  color: ${props => props.clicked ? '#f28c26' : 'white'};
-  border-radius: 11px;
-  background: linear-gradient(145deg, #1e1e1e, #191919);
-  box-shadow:  5px 5px 10px #151515,
-             -5px -5px 10px #232323;
-  margin-left: 20px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  box-sizing: border-box;
-  @media ${device.mobileS} {
-    max-width: 1023px;
-    height: 35px;
-    width: 75px;
-    font-size: 20px;
-  };
-  @media ${device.laptop} {
-    height: 25px;
-    line-height: 25px;
-    font-size: 16px;
-  };
-`;
-
 
 export default Instrument;
