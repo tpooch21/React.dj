@@ -70,10 +70,12 @@ class App extends React.Component {
         <MainTitle><em>REACT.dj</em></MainTitle>
         <ScaleForm selectNote={this.onNoteSelect}/>
         <Instrument parentState={this.state} remove={this.removeNote}></Instrument>
-        <GithubLink href="https://github.com/tpooch21/React.dj" target="_blank">
-          <GithubIcon></GithubIcon>
-        </GithubLink>
-        <LinkMessage>View Code and Demo</LinkMessage>
+        <GithubWrapper>
+          <GithubLink href="https://github.com/tpooch21/React.dj" target="_blank">
+            <GithubIcon></GithubIcon>
+          </GithubLink>
+          <LinkMessage>View Code and Demo</LinkMessage>
+        </GithubWrapper>
       </MainDiv>
     );
   }
@@ -115,6 +117,14 @@ const GithubIcon = styled(Github)`
   }
 `;
 
+const GithubWrapper = styled.div`
+  height: auto;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const GithubLink = styled.a`
   cursor: pointer;
   height: 50px;
@@ -125,13 +135,14 @@ const GithubLink = styled.a`
     height: 60px;
     width: 60px;
     margin-bottom: -5px;
-  }
+  };
 `;
 
 const LinkMessage = styled.h5`
   color: white;
   font-family: inherit;
   font-size: 10px;
+  margin-top: 10px;
 `;
 
 export default App;

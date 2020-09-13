@@ -18,13 +18,6 @@ const bpmSelector = props => (
   </Aux>
 );
 
-// <BPMButton clicked={this.state.showBPM} onClick={this.toggleBPMOptions}>BPM</BPMButton>
-// {this.state.showBPM &&
-// <BPMMenu
-//   changeBPM={this.changeBPM}
-//   currentBPM={this.state.bpm} />
-// }
-
 const BPMButton = styled.button`
 height: 25px;
 font-family: inherit;
