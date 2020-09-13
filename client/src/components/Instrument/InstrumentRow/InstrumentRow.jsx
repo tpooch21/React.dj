@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { device } from '../../../../public/assets/sizes';
 
 import InstrumentPad from './InstrumentPad/InstrumentPad.jsx';
 
@@ -27,6 +28,12 @@ const PadButtonRow = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  box-sizing: border-box;
+  @media ${device.mobileS} {
+    flex-direction: column;
+    width: 25%;
+    height: 100%;
+  }
 `;
 
 export default instrumentRow;

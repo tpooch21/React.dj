@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {ControllerPlay} from '@styled-icons/entypo/ControllerPlay';
 import {Pause} from '@styled-icons/foundation/Pause';
 import { unhighlightBorders, highlightBorders, silencePreviousGains, startCurrentGains } from '../../helpers/HighlightAndVolumeHelpers';
+import { device } from '../../../public/assets/sizes';
 
 import InstrumentRow from './InstrumentRow/InstrumentRow.jsx';
 import BPMMenu from './BPMMenu/BPMMenu.jsx';
@@ -233,6 +234,11 @@ const PadWrapper = styled.div`
   align-items: center;
   margin-top: 20px;
   margin-bottom: 50px;
+  @media ${device.mobileS} {
+    flex-direction: column;
+    width: 90%;
+    height: auto;
+  }
 `;
 
 const NoteSelectionWrapper = styled.div`
@@ -242,7 +248,32 @@ const NoteSelectionWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-`;
+  @media ${device.mobileS} {
+    width: 90%;
+    flex-direction: row;
+    height: 100px;
+    margin-bottom: 15px;
+  }
+  `;
+
+  const PadButtonsWrapper = styled.div`
+    height: 400px;
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 26px;
+    margin: 30px 0;
+    background: linear-gradient(145deg, #1e1e1e, #191919);
+    box-shadow:  6px 6px 12px #121212,
+                -6px -6px 12px #262626;
+    @media ${device.mobileS} {
+      width: 90%;
+      flex-direction: row;
+      height: 60vh;
+    }
+  `;
 
 const NoteButtonEmpty = styled.button`
   height: 50px;
@@ -252,6 +283,10 @@ const NoteButtonEmpty = styled.button`
   box-shadow:  8px 8px 16px #101010,
             -8px -8px 16px #282828;
   cursor: pointer;
+  @media ${device.mobileS} {
+    height: 75px;
+    width: 75px;
+  }
 `;
 
 const NoteButtonFilled = styled.button`
@@ -264,6 +299,11 @@ const NoteButtonFilled = styled.button`
             -8px -8px 16px #282828;
   cursor: pointer;
   font-weight: bold;
+  @media ${device.mobileS} {
+    height: 75px;
+    width: 75px;
+    font-size: 24px;
+  }
 `;
 
 const PlayPauseWrapper = styled.div`
@@ -273,6 +313,15 @@ const PlayPauseWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  padding-left: 50px;
+  box-sizing: border-box;
+  @media ${device.mobileS} {
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-start;
+    height: auto;
+    margin-top: 15px;
+  }
 `;
 
 const PlayWrapper = styled.div`
@@ -287,6 +336,10 @@ const PlayWrapper = styled.div`
   cursor: pointer;
   margin-bottom: 20px;
   margin-left: 15px;
+  @media ${device.mobileS} {
+    height: 70px;
+    width: 70px;
+  }
 `;
 
 const PauseWrapper = styled.div`
@@ -300,7 +353,11 @@ const PauseWrapper = styled.div`
   position: relative;
   cursor: pointer;
   margin-left: 20px;
-  margin-bottom: 20px
+  margin-bottom: 20px;
+  @media ${device.mobileS} {
+    height: 70px;
+    width: 70px;
+  }
 `;
 
 const ControllerIcon = styled(ControllerPlay)`
@@ -309,6 +366,11 @@ const ControllerIcon = styled(ControllerPlay)`
   position: absolute;
   top: 7px;
   left: 9px;
+  @media ${device.mobileS} {
+    height: 55px;
+    top: 8px;
+    left: 10px;
+  }
 `;
 
 const PauseIcon = styled(Pause)`
@@ -317,6 +379,9 @@ const PauseIcon = styled(Pause)`
   position: absolute;
   top: 7px;
   left: 7px;
+  @media ${device.mobileS} {
+    height: 55px;
+  }
 `;
 
 const BPMButton = styled.button`
@@ -330,21 +395,11 @@ const BPMButton = styled.button`
   margin-left: 20px;
   margin-bottom: 10px;
   cursor: pointer;
-`;
-
-const PadButtonsWrapper = styled.div`
-  height: 400px;
-  width: 550px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  border-radius: 26px;
-  background: linear-gradient(145deg, #1e1e1e, #191919);
-  box-shadow:  6px 6px 12px #121212,
-              -6px -6px 12px #262626;
-  @media (max-width: 401px) {
-    width: 90%;
+  box-sizing: border-box;
+  @media ${device.mobileS} {
+    height: 35px;
+    width: 75px;
+    font-size: 20px;
   }
 `;
 

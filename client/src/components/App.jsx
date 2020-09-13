@@ -3,6 +3,7 @@ import ScaleForm from './ScaleForm.jsx';
 import Instrument from './Instrument/Instrument.jsx';
 import styled from 'styled-components';
 import {Github} from '@styled-icons/boxicons-logos/Github';
+import { device } from '../../public/assets/sizes';
 
 const Octavian = require('octavian');
 
@@ -93,9 +94,12 @@ const MainDiv = styled.div`
 
 const MainTitle = styled.h1`
   color: white;
+  margin-top: 45px;
+  line-height: 25px;
   font-family: inherit;
   font-weight: 900;
   text-decoration: underline;
+  font-size: 3em;
 `;
 
 const GithubIcon = styled(Github)`

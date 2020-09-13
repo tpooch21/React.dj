@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { device } from '../../../../../public/assets/sizes';
 
 const instrumentPad = props => {
   const currentPad = props.oscillators[props.col];
@@ -22,6 +23,11 @@ const PadButtonEmpty = styled.button`
   box-shadow:  6px 6px 12px #131313,
   -6px -6px 12px #252525;
   cursor: pointer;
+  box-sizing: border-box;
+  @media ${device.mobileS} {
+    height: 130px;
+    width: 130px;
+  }
 `;
 
 const PadButtonFilled = styled.button`
@@ -32,6 +38,10 @@ const PadButtonFilled = styled.button`
   box-shadow:  6px 6px 12px #131313,
   -6px -6px 12px #252525;
   cursor: pointer;
+  @media ${device.mobileS} {
+    height: 130px;
+    width: 130px;
+  }
 `;
 
 export default instrumentPad;

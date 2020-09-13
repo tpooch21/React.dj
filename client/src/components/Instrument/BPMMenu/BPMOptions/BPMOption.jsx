@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { device } from '../../../../../public/assets/sizes';
 
 const bpmOption = props => (
   <BPMOption
@@ -25,6 +26,11 @@ const BPMOption = styled.button`
     color: black;
   }
   cursor: pointer;
+  @media ${device.mobileS} {
+    height: 35px;
+    width: 75px;
+    font-size: 20px;
+  }
 `;
 
 export default bpmOption;

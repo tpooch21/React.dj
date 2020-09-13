@@ -3,6 +3,7 @@ import ScaleVisualizer from './ScaleVisualizer.jsx';
 import ScaleFormOption from './ScaleFormOption.jsx';
 import SelectMenu from './SelectMenu.jsx';
 import styled from 'styled-components';
+import { device } from '../../public/assets/sizes';
 import $ from 'jquery';
 
 class ScaleForm extends React.Component {
@@ -84,6 +85,9 @@ const ScaleDiv = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  @media ${device.mobileS} {
+    width: 80%;
+  }
 `;
 
 const MenuDiv = styled.div`

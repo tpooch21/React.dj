@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { device } from '../../../../public/assets/sizes';
 
 import BPMOption from './BPMOptions/BPMOption.jsx';
 
@@ -31,6 +32,11 @@ const BPMMenuWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media ${device.mobileS} {
+    flex-direction: row;
+    width: auto;
+    height: 45px;
+  }
 `;
 
 export default bpmMenu;

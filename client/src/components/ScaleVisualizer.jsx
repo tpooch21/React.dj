@@ -29,7 +29,6 @@ const ScaleVisualizerWrapper = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: flex-start;
-  animation: ${slideDown} 1s linear;
 `;
 
 export default ScaleVisualizer;
