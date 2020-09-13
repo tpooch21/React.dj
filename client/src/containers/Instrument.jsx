@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import {ControllerPlay} from '@styled-icons/entypo/ControllerPlay';
 import {Pause} from '@styled-icons/foundation/Pause';
-import { unhighlightBorders, highlightBorders, silencePreviousGains, startCurrentGains } from '../../helpers/HighlightAndVolumeHelpers';
-import { device } from '../../../public/assets/sizes';
+import { unhighlightBorders, highlightBorders, silencePreviousGains, startCurrentGains } from '../helpers/HighlightAndVolumeHelpers';
+import { device } from '../../public/assets/sizes';
 
-import InstrumentRow from './InstrumentRow/InstrumentRow.jsx';
-import BPMMenu from './BPMMenu/BPMMenu.jsx';
+import InstrumentRow from '../components/InstrumentRow/InstrumentRow.jsx';
+import BPMMenu from '../components/BPMMenu/BPMMenu.jsx';
+import NoteSelections from '../components/NoteSelections/NoteSelections.jsx';
 
 const Octavian = require('octavian');
 
@@ -187,15 +188,9 @@ class Instrument extends React.Component {
 
     return (
       <PadWrapper>
-        <NoteSelectionWrapper>
-          {[0, 1, 2, 3].map(num => {
-            if (this.state.noteSelections[num]) {
-              return <NoteButtonFilled onClick={() => this.props.remove(num)}>{this.state.noteSelections[num]}</NoteButtonFilled>
-            } else {
-              return <NoteButtonEmpty></NoteButtonEmpty>
-            }
-          })}
-        </NoteSelectionWrapper>
+        <NoteSelections
+          remove={this.props.remove}
+          noteSelections={this.state.noteSelections} />
         <PadButtonsWrapper ref={(inputEl) => {this.padRows = inputEl}}>
           {rowCreator.map((_, i) => {
             return <InstrumentRow
@@ -245,83 +240,28 @@ const PadWrapper = styled.div`
   }
 `;
 
-const NoteSelectionWrapper = styled.div`
+const PadButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin-bottom: 15px;
+  border-radius: 26px;
+  margin: 30px 0;
+  background: linear-gradient(145deg, #1e1e1e, #191919);
+  box-shadow:  6px 6px 12px #121212,
+              -6px -6px 12px #262626;
   @media ${device.mobileS} {
     max-width: 1023px;
     width: 90%;
     flex-direction: row;
-    height: 100px;
+    height: 60vh;
   };
   @media ${device.laptop} {
     flex-direction: column;
-    width: 100px;
-    height: 375px;
+    width: 550px;
+    height: 400px;
   }
 `;
 
-  const PadButtonsWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    border-radius: 26px;
-    margin: 30px 0;
-    background: linear-gradient(145deg, #1e1e1e, #191919);
-    box-shadow:  6px 6px 12px #121212,
-                -6px -6px 12px #262626;
-    @media ${device.mobileS} {
-      max-width: 1023px;
-      width: 90%;
-      flex-direction: row;
-      height: 60vh;
-    };
-    @media ${device.laptop} {
-      flex-direction: column;
-      width: 550px;
-      height: 400px;
-    }
-  `;
-
-const NoteButtonEmpty = styled.button`
-  border-radius: 15px;
-  background: linear-gradient(145deg, #1e1e1e, #191919);
-  box-shadow:  8px 8px 16px #101010,
-            -8px -8px 16px #282828;
-  cursor: pointer;
-  @media ${device.mobileS} {
-    max-width: 1023px;
-    height: 75px;
-    width: 75px;
-  };
-  @media ${device.laptop} {
-    width: 50px;
-    height: 50px;
-  }
-`;
-
-const NoteButtonFilled = styled.button`
-  border-radius: 15px;
-  background: #f28c26;
-  color: black;
-  box-shadow:  8px 8px 16px #101010,
-            -8px -8px 16px #282828;
-  cursor: pointer;
-  font-weight: bold;
-  @media ${device.mobileS} {
-    max-width: 1023px;
-    height: 75px;
-    width: 75px;
-    font-size: 24px;
-  };
-  @media ${device.laptop} {
-    width: 50px;
-    height: 50px;
-    font-size: 18px;
-  }
-`;
 
 const PlayPauseWrapper = styled.div`
   display: flex;

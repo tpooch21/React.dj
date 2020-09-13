@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { device } from '../../../../../public/assets/sizes';
+import { device } from '../../../../public/assets/sizes';
 
 const instrumentPad = props => {
   const currentPad = props.oscillators[props.col];
@@ -23,20 +23,16 @@ const PadButtonEmpty = styled.button`
   cursor: pointer;
   box-sizing: border-box;
   @media ${device.mobileS} {
-    max-width: 539px;
+    max-width: 1023px;
     height: 15%;
     width: 75%;
-  };
-  @media ${device.mobileXL} {
-    max-width: 1023px;
-    height: 85px;
-    width: 85px;
   };
   @media ${device.laptop} {
     width: 65px;
     height: 65px;
   }
-`;
+  `;
+
 
 const PadButtonFilled = styled.button`
   border-radius: 15px;
@@ -46,8 +42,8 @@ const PadButtonFilled = styled.button`
   cursor: pointer;
   @media ${device.mobileS} {
     max-width: 1023px;
-    height: 130px;
-    width: 130px;
+    height: 15%;
+    width: 75%;
   };
   @media ${device.laptop} {
     width: 65px;

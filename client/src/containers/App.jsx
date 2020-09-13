@@ -1,6 +1,6 @@
 import React from 'react';
-import ScaleForm from './ScaleForm.jsx';
-import Instrument from './Instrument/Instrument.jsx';
+import ScaleForm from '../components/ScaleForm.jsx';
+import Instrument from './Instrument.jsx';
 import styled from 'styled-components';
 import {Github} from '@styled-icons/boxicons-logos/Github';
 import { device } from '../../public/assets/sizes';
@@ -47,7 +47,6 @@ class App extends React.Component {
 
   removeNote(i) {
     delete this.state.currentNotes[i];
-    debugger;
 
     let opening;
     if (this.state.firstOpenSpace === undefined) {
