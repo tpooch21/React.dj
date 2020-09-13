@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { device } from '../../public/assets/sizes';
+import { device } from '../../../../public/assets/sizes';
 
 const Note = (props) => (
   <NoteButton onClick={() => {props.selectNote(props.note)}}>{props.note}</NoteButton>

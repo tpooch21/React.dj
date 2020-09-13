@@ -2,13 +2,17 @@ import React from 'react';
 import ScaleFormOption from './ScaleFormOption.jsx';
 import styled from 'styled-components';
 
-const SelectMenu = props => (
+const scaleSelect = props => (
   <SelectWrapper>
-    <SelectLabel>Note:</SelectLabel>
-    <NoteScaleOctaveSelect onChange={(e) => {props.onChange(e, props.type)}}>
-    {props.options.map(option => {
-      return <ScaleFormOption key={option} value={option}/>
-    })}
+    <SelectLabel>{props.label}:</SelectLabel>
+    <NoteScaleOctaveSelect
+      value={props.value}
+      onChange={(e) => {props.onChange(e, props.type)}}>
+      {props.options.map(option => {
+        return <ScaleFormOption
+                  key={option}
+                  value={option}/>
+      })}
     </NoteScaleOctaveSelect>
   </SelectWrapper>
 );
@@ -34,4 +38,4 @@ const SelectLabel = styled.h4`
   margin-right: 10px;
 `;
 
-export default SelectMenu;
+export default scaleSelect;

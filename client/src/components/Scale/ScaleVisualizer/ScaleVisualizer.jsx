@@ -5,7 +5,10 @@ import Note from './Note.jsx';
 const ScaleVisualizer = (props) => (
   <ScaleVisualizerWrapper>
     {props.notes.map(note => {
-      return <Note note={note} selectNote={props.selectNote}/>
+      return <Note
+              key={note}
+              note={note}
+              selectNote={props.selectNote}/>
     })}
   </ScaleVisualizerWrapper>
 );

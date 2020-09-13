@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import { unhighlightBorders, highlightBorders, silencePreviousGains, startCurrentGains } from '../helpers/HighlightAndVolumeHelpers';
 import { device } from '../../public/assets/sizes';
@@ -11,7 +11,7 @@ const Octavian = require('octavian');
 
 const rowCreator = Array(4).fill(0);
 
-class Instrument extends React.Component {
+class Instrument extends Component {
   constructor(props) {
     super(props);
 

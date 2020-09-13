@@ -1,28 +1,66 @@
-import React from 'react';
-import ScaleForm from '../components/ScaleForm.jsx';
+import React, { Component } from 'react';
+import ScaleForm from '../components/Scale/ScaleForm/ScaleForm.jsx';
 import Instrument from './Instrument.jsx';
 import styled from 'styled-components';
 import {Github} from '@styled-icons/boxicons-logos/Github';
 import { device } from '../../public/assets/sizes';
+import $ from 'jquery';
 
 const Octavian = require('octavian');
 
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      note: 'A',
+      scale: 'Major',
+      octave: '3',
+      notesInScale: [],
+      scaleSelected: false,
       playing: false,
       currentNotes: {},
       firstOpenSpace: 0,
       filledSpaces: []
     };
 
-    this.onNoteSelect = this.onNoteSelect.bind(this);
-    this.removeNote = this.removeNote.bind(this);
   }
 
-  onNoteSelect(note) {
+  onFormSelection = (e, type) => {
+    this.setState({
+      [type]: e.target.value
+    });
+  }
+
+  getNotes = () => {
+    let scaleName = `${this.state.note}${this.state.scale}`;
+    $.ajax({
+      url: `scale/${scaleName}/notes`,
+      method: 'GET',
+      success: (data) => {
+        let notesInOctave = [];
+        let currentOctave = this.state.octave;
+
+        data.notes.forEach((note, i) => {
+          if (note.indexOf('C') > -1 && i !== 0) {
+            currentOctave++;
+          }
+          notesInOctave.push(`${note}${currentOctave}`);
+        });
+
+        this.setState({
+          notesInScale: notesInOctave,
+          scaleSelected: true
+        });
+      },
+      error: () => {
+        console.log('Error requesting data from server');
+      }
+    });
+  }
+
+  // Should this be in instrument?
+  onNoteSelect = (note) => {
     // If 4 notes selected, don't add another note
     if (this.state.firstOpenSpace === undefined) {
       return;
@@ -45,7 +83,8 @@ class App extends React.Component {
     });
   }
 
-  removeNote(i) {
+  // Should this be in instrument?
+  removeNote = (i) => {
     delete this.state.currentNotes[i];
 
     let opening;
@@ -68,7 +107,15 @@ class App extends React.Component {
     return (
       <MainDiv>
         <MainTitle><em>REACT.dj</em></MainTitle>
-        <ScaleForm selectNote={this.onNoteSelect}/>
+        <ScaleForm
+          change={this.onFormSelection}
+          getNotes={this.getNotes}
+          selected={this.state.scaleSelected}
+          notes={this.state.notesInScale}
+          selectNote={this.onNoteSelect}
+          currentNote={this.state.note}
+          currentScale={this.state.scale}
+          currentOctave={this.state.octave}/>
         <Instrument parentState={this.state} remove={this.removeNote}></Instrument>
         <GithubWrapper>
           <GithubLink href="https://github.com/tpooch21/React.dj" target="_blank">
