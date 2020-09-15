@@ -56,7 +56,7 @@ const ScaleDiv = styled.div`
     width: 80%;
   };
   @media ${device.laptop} {
-    width: 40%;
+    width: 50%;
   }
 `;
 
@@ -69,27 +69,6 @@ const MenuDiv = styled.div`
   align-items: flex-start;
 `;
 
-const SelectLabel = styled.h4`
-  color: white;
-  font-family: Muli, sans-serif;
-  margin-right: 10px;
-`;
-
-const SelectWrapper = styled.div`
-  height: 75px;
-  display: flex;
-  width: 100px
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-`;
-
-const NoteScaleOctaveSelect = styled.select`
-  height: 25px;
-  margin-right: 35px;
-`;
-
 const ButtonWrapper = styled.div`
   height: 75px;
   display: flex;
@@ -100,19 +79,22 @@ const ButtonWrapper = styled.div`
   position: relative;
 `;
 
-const ScaleNoteOctaveOption = styled.option`
-  font-family: Muli, sans-serif;
-`;
-
 const GetNotesButton = styled.button`
-  height: 25px;
-  font-family: Muli, sans-serif;
+  height: auto;
+  font-family: inherit;
   color: white;
   border-radius: 11px;
   background: linear-gradient(145deg, #1e1e1e, #191919);
   box-shadow:  5px 5px 10px #151515,
              -5px -5px 10px #232323;
   cursor: pointer;
+  @media ${device.mobileS} {
+    max-width: 1023px;
+    font-size: 1.2rem;
+  };
+  @media ${device.laptop} {
+    font-size: 0.8rem;
+  }
 `;
 
 export default scaleForm;

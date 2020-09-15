@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { device } from '../../../../public/assets/sizes';
 
-const Note = (props) => (
+const noteInScale = (props) => (
   <NoteButton onClick={() => {props.selectNote(props.note)}}>{props.note}</NoteButton>
 );
 
@@ -31,4 +31,4 @@ const NoteButton = styled.button`
   };
 `;
 
-export default Note;
+export default noteInScale;

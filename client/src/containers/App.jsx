@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ScaleForm from '../components/Scale/ScaleForm/ScaleForm.jsx';
 import Instrument from './Instrument.jsx';
+import ArrowDirectionModal from '../components/ArrowDirectionModal/ArrowDirectionModal.jsx';
 import styled from 'styled-components';
 import {Github} from '@styled-icons/boxicons-logos/Github';
 import { device } from '../../public/assets/sizes';
@@ -21,10 +22,15 @@ class App extends Component {
       playing: false,
       currentNotes: {},
       firstOpenSpace: 0,
-      filledSpaces: []
+      filledSpaces: [],
+      displayModal: true
     };
 
   }
+
+  // componentDidMount = () => {
+
+  // }
 
   onFormSelection = (e, type) => {
     this.setState({
@@ -103,9 +109,20 @@ class App extends Component {
     });
   }
 
+  toggleModalDisplay = () => {
+    this.setState((prevState) => {
+      return {
+        displayModal: !prevState.displayModal
+      };
+    });
+  }
+
   render() {
     return (
       <MainDiv>
+        {this.state.displayModal &&
+          <ArrowDirectionModal toggleModal={this.toggleModalDisplay}/>
+        }
         <MainTitle><em>REACT.dj</em></MainTitle>
         <ScaleForm
           change={this.onFormSelection}

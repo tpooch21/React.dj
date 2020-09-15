@@ -6,7 +6,8 @@ const ScaleFormOption = props => (
 );
 
 const ScaleOption = styled.option`
-  font-family: Muli, sans-serif;
+  font-family: inherit;
+  width: 100%;
 `;
 
 export default ScaleFormOption;

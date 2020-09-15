@@ -1,11 +1,11 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import Note from './Note.jsx';
+import NoteInScale from './NoteInScale.jsx';
 
 const ScaleVisualizer = (props) => (
   <ScaleVisualizerWrapper>
     {props.notes.map(note => {
-      return <Note
+      return <NoteInScale
               key={note}
               note={note}
               selectNote={props.selectNote}/>

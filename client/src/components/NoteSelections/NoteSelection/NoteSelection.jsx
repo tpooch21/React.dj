@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { device } from '../../../../public/assets/sizes';
 
-export const note = props => {
+const noteSelection = props => {
   let note = <NoteButtonEmpty></NoteButtonEmpty>;
 
   if (props.noteSelections[props.id]) {
@@ -50,5 +50,5 @@ const NoteButtonFilled = styled.button`
   }
 `;
 
-export default note;
+export default noteSelection;
 

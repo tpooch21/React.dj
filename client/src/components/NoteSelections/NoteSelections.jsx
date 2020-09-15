@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { device } from '../../../public/assets/sizes';
 
-import Note from './Note/Note.jsx';
+import NoteSelection from './NoteSelection/NoteSelection.jsx';
 
 const noteMaker = new Array(4).fill(0);
 
 const noteSelections = props => (
   <NoteSelectionWrapper>
     {noteMaker.map((_, i) => {
-      return <Note
+      return <NoteSelection
         key={i}
         id={i}
         remove={() => props.remove(i)}
