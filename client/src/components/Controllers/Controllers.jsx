@@ -26,7 +26,6 @@ const PlayPauseWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding-left: 50px;
   box-sizing: border-box;
   @media ${device.mobileS} {
     max-width: 1023px;
@@ -34,12 +33,14 @@ const PlayPauseWrapper = styled.div`
     width: 100%;
     height: auto;
     margin-top: 15px;
+    margin-left: 0;
   };
   @media ${device.laptop} {
     flex-direction: column;
-    width: 60px;
+    width: auto;
     height: 375px;
     margin-top: 0;
+    margin-left: 15px;
   }
 `;
 

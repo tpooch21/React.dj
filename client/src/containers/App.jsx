@@ -23,14 +23,42 @@ class App extends Component {
       currentNotes: {},
       firstOpenSpace: 0,
       filledSpaces: [],
-      displayModal: true
+      displayModal: false,
+      playVertically: false,
+      windowSize: null
     };
 
   }
 
-  // componentDidMount = () => {
+  // Set up resize listener, and determine which modal to display initially
+  componentDidMount = () => {
+    window.addEventListener('resize', this.toggleArrangementDirection);
+    this.toggleArrangementDirection();
+  }
 
-  // }
+  componentDidUpdate = (prevProps, prevState) => {
+    let sizeCrossedThreshold;
+
+    // If previous window size was not null, see if the resize crossed the threshold
+    if (prevState.windowSize) {
+      if (prevState.windowSize === this.state.windowSize) {
+        return;
+      }
+      sizeCrossedThreshold = (prevState.windowSize > 1023 && this.state.windowSize <= 1023 || prevState.windowSize <= 1023 && this.state.windowSize > 1023);
+    }
+
+    // If previous window size is null (as on initial load), or resize crossed threhold, display appropriate modal
+    if (!prevState.windowSize || sizeCrossedThreshold) {
+      this.setState({
+        displayModal: true
+      }, () => {
+        setTimeout(() => {
+          this.setState({
+            displayModal: false
+          })
+        }, 3000)});
+    }
+  }
 
   onFormSelection = (e, type) => {
     this.setState({
@@ -109,20 +137,27 @@ class App extends Component {
     });
   }
 
-  toggleModalDisplay = () => {
-    this.setState((prevState) => {
-      return {
-        displayModal: !prevState.displayModal
-      };
+  closeModal = () => {
+    this.setState({
+      displayModal: false
+    });
+  }
+
+  toggleArrangementDirection = () => {
+    this.setState({
+      playVertically: window.innerWidth <= 1023,
+      windowSize: window.innerWidth
     });
   }
 
   render() {
+
     return (
       <MainDiv>
-        {this.state.displayModal &&
-          <ArrowDirectionModal toggleModal={this.toggleModalDisplay}/>
-        }
+        {<ArrowDirectionModal
+          closeModal={this.closeModal}
+          vertical={this.state.playVertically}
+          show={this.state.displayModal}/>}
         <MainTitle><em>REACT.dj</em></MainTitle>
         <ScaleForm
           change={this.onFormSelection}
