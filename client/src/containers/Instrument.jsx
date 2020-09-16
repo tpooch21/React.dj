@@ -16,7 +16,7 @@ class Instrument extends Component {
     super(props);
 
     this.state = {
-      noteSelections: this.props.parentState.currentNotes,
+      noteSelections: this.props.notes,
       row0OscillatorsAndGains: {},
       row1OscillatorsAndGains: {},
       row2OscillatorsAndGains: {},
@@ -29,6 +29,15 @@ class Instrument extends Component {
 
     this.player = 0;
     this.refreshIntervalId = 0;
+  }
+
+  componentDidUpdate = (prevProps) => {
+    console.log('Updating');
+    if (prevProps.notes !== this.props.notes) {
+      this.setState({
+        noteSelections: this.props.notes
+      });
+    }
   }
 
   createOscillator = (row, col) => {
@@ -183,6 +192,25 @@ class Instrument extends Component {
     }
   }
 
+  resetInstrumentSettings = () => {
+    if (this.state.playing) {
+      alert('Please pause arrangement before resetting.');
+      return;
+    }
+
+    this.setState({
+      noteSelections: {},
+      row0OscillatorsAndGains: {},
+      row1OscillatorsAndGains: {},
+      row2OscillatorsAndGains: {},
+      row3OscillatorsAndGains: {},
+      playing: false,
+      currentCol: 0,
+      bpm: 500,
+      showBPM: false
+    }, this.props.resetAll);
+  }
+
   render() {
 
     return (
@@ -207,7 +235,8 @@ class Instrument extends Component {
           showBPM={this.state.showBPM}
           toggleBPMOptions={this.toggleBPMOptions}
           changeBPM={this.changeBPM}
-          bpm={this.state.bpm}/>
+          bpm={this.state.bpm}
+          reset={this.resetInstrumentSettings}/>
       </PadWrapper>
     );
   }

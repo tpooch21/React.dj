@@ -20,6 +20,7 @@ const PadButtonEmpty = styled.button`
   background: ${props => props.selected ? '#f28c26' : 'linear-gradient(145deg, #1e1e1e, #191919)'};
   box-shadow:  6px 6px 12px #131313,
   -6px -6px 12px #252525;
+  border-color: #ccc;
   cursor: pointer;
   box-sizing: border-box;
   @media ${device.mobileS} {
@@ -39,6 +40,7 @@ const PadButtonFilled = styled.button`
   background: #f28c26;
   box-shadow:  6px 6px 12px #131313,
   -6px -6px 12px #252525;
+  border-color: #ccc;
   cursor: pointer;
   @media ${device.mobileS} {
     max-width: 1023px;

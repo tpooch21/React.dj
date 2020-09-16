@@ -17,6 +17,7 @@ const NoteButtonEmpty = styled.button`
   background: linear-gradient(145deg, #1e1e1e, #191919);
   box-shadow:  8px 8px 16px #101010,
             -8px -8px 16px #282828;
+  border-color: #ccc;
   cursor: pointer;
   @media ${device.mobileS} {
     max-width: 1023px;
@@ -36,6 +37,7 @@ const NoteButtonFilled = styled.button`
   box-shadow:  8px 8px 16px #101010,
             -8px -8px 16px #282828;
   cursor: pointer;
+  border-color: #ccc;
   font-weight: bold;
   @media ${device.mobileS} {
     max-width: 1023px;

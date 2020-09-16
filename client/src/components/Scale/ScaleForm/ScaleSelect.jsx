@@ -12,7 +12,8 @@ const scaleSelect = props => (
       {props.options.map(option => {
         return <ScaleFormOption
                   key={option}
-                  value={option}/>
+                  value={option}
+                  type={props.type}/>
       })}
     </NoteScaleOctaveSelect>
   </SelectWrapper>

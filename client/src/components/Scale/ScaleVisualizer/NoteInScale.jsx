@@ -12,6 +12,7 @@ const NoteButton = styled.button`
   background: linear-gradient(145deg, #191919, #1e1e1e);
   box-shadow:  6px 6px 12px #131313,
               -6px -6px 12px #252525;
+  border-color: #ccc;
   cursor: pointer;
   &:hover {
     background: #f28c26;

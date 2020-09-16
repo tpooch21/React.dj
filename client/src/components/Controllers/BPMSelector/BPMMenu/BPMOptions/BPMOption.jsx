@@ -17,6 +17,7 @@ const BPMOption = styled.button`
   border-radius: 11px;
   box-shadow:  5px 5px 10px #151515,
              -5px -5px 10px #232323;
+  border-color: #ccc;
   margin-left: 20px;
   margin-bottom: 5px;
   &:hover {
@@ -31,7 +32,7 @@ const BPMOption = styled.button`
   };
   @media ${device.laptop} {
     width: 42px;
-    height: 23px;
+    height: auto;
     font-size: 16px;
   }
 `;

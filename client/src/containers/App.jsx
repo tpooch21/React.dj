@@ -75,6 +75,7 @@ class App extends Component {
         let notesInOctave = [];
         let currentOctave = this.state.octave;
 
+        // Octavian frequency cycles reset at C, so if a C is seen, increase the octave
         data.notes.forEach((note, i) => {
           if (note.indexOf('C') > -1 && i !== 0) {
             currentOctave++;
@@ -150,6 +151,17 @@ class App extends Component {
     });
   }
 
+  resetAllSettings = () => {
+    this.setState({
+      notesInScale: [],
+      scaleSelected: false,
+      playing: false,
+      currentNotes: {},
+      firstOpenSpace: 0,
+      filledSpaces: []
+    });
+  }
+
   render() {
 
     return (
@@ -168,7 +180,10 @@ class App extends Component {
           currentNote={this.state.note}
           currentScale={this.state.scale}
           currentOctave={this.state.octave}/>
-        <Instrument parentState={this.state} remove={this.removeNote}></Instrument>
+        <Instrument
+          notes={this.state.currentNotes}
+          remove={this.removeNote}
+          resetAll={this.resetAllSettings}></Instrument>
         <GithubWrapper>
           <GithubLink href="https://github.com/tpooch21/React.dj" target="_blank">
             <GithubIcon></GithubIcon>

@@ -18,7 +18,8 @@ const controllers = props => (
       showOptions={props.showBPM}
       toggleOptions={props.toggleBPMOptions}
       changeBPM={props.changeBPM}
-      currentBPM={props.bpm}/>
+      currentBPM={props.bpm}
+      reset={props.reset}/>
   </PlayPauseWrapper>
 );
 

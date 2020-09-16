@@ -2,10 +2,7 @@ export const unhighlightBorders = (padRows, col) => {
   const pads = [...padRows];
   pads.forEach(row => {
     const padToUnhighlight = row.children[col];
-    padToUnhighlight.style.borderTopColor = '#757575';
-    padToUnhighlight.style.borderLeftColor = '#757575';
-    padToUnhighlight.style.borderRightColor = 'rgb(118, 118, 118)';
-    padToUnhighlight.style.borderBottomColor = 'rgb(118, 118, 118)';
+    padToUnhighlight.style.borderColor = '#ccc';
   });
 };
 
